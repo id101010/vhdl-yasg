@@ -1,0 +1,16 @@
+*
+!.gitattributes
+!.gitignore
+!README.md
+!LICENSE
+!.gitkeep
+!*.sym
+!*.ucf
+!*.vhd
+!*.sch
+!*.gise
+!*.xise
+!*.jhd
+!*.wcfg
+!*/
+!documentation/*
