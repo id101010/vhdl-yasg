@@ -31,33 +31,47 @@ entity dds is
     Generic (clk_freq: natural:= 50000000;
              max_freq: natural := 100000;
              adc_res: natural:=12;
-             vector_res: natural :=8 );
+             acc_res: natural:=32;
+             phase_res: natural:=15);
     Port ( clk : in  STD_LOGIC;
            freq : in  unsigned (log2_int(max_freq)-1 downto 0);
            form : in  unsigned (1 downto 0);
-           amp : out  unsigned (adc_res-1 downto 0);
+           amp : out  signed (adc_res-1 downto 0);
            update : out  STD_LOGIC);
 end dds;
 
-architecture Behavioral of dds is
-    constant clk2 : natural := clk_freq/(2**vector_res);
-    constant clk2_us :unsigned (log2_int(clk2)-1 downto 0) :=to_unsigned(clk2,log2_int(clk2));
-    signal prescale,cnt_prescale :unsigned (log2_int(clk2)-1 downto 0) := (others => '0');   
-    signal m, idx : unsigned(vector_res -1  downto 0):= (others => '0');   
-    
+architecture Behavioral of dds is   
+    signal m, idx : unsigned(acc_res -1  downto 0):= (others => '0');   
+    signal idx_phase : unsigned(phase_res-1 downto 0) := (others => '0');  
+    signal amp_rect, amp_saw, amp_tria, amp_sin : signed (adc_res-1 downto 0);
+   
 begin
-    prescale <= divide(to_unsigned(clk2,prescale'length),freq);
-    m <= resize(divide(freq*prescale,to_unsigned(clk2,prescale'length)),m'length);
+    -- m = f0*2^n/fc
+    m <= resize(divide(shift_left(resize(freq,64),acc_res),to_unsigned(clk_freq,64)),m'length);
+    idx_phase <= idx(acc_res -1 downto acc_res - phase_res);
+       
+    amp_rect <= to_signed((2**(adc_res-1)) - 1,adc_res) when idx_phase(phase_res-1)='0' else 
+                to_signed(-(2**(adc_res-1)),adc_res);
     
+    amp_saw <=  to_signed(-(2**(adc_res-1)),adc_res)
+                + signed(resize(unsigned(((2**adc_res) -1)*idx_phase/2**phase_res),adc_res)) ;
+    
+    amp_tria <= to_signed(-(2**(adc_res-1)),adc_res)
+                + signed(resize(unsigned(((2**adc_res) -1)*idx_phase/2**(phase_res-1)),adc_res)) 
+                when idx_phase(phase_res-1)='0' else 
+                resize(to_signed((2**(adc_res))-1,adc_res+1)
+                - signed(resize(unsigned(((2**adc_res) -1)*idx_phase/2**(phase_res-1)),adc_res)),adc_res);
+    
+    
+    
+    amp <= amp_tria;
+        
+        
+        
     P1: process(clk) 
     begin
         if(rising_edge(clk)) then
-            if(cnt_prescale >= prescale) then
-                cnt_prescale <= to_unsigned(1, prescale'length);
-                idx <= (idx+m) mod (2**vector_res);
-            else
-                cnt_prescale <= cnt_prescale +1;
-            end if;
+            idx <= (idx+m);
         end if;
     end process P1;
 

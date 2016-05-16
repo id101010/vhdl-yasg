@@ -41,6 +41,7 @@
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="dds_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="dds_tb_isim_beh.wdb"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="dds_tb_stx_beh.prj"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="dds_vhdl.prj"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="dds_xst.xrpt"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
@@ -59,9 +60,8 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1463396197" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1463396197">
+    <transform xil_pn:end_ts="1463423268" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1463423268">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="dds.vhd"/>
       <outfile xil_pn:name="dds_tb.vhd"/>
@@ -80,7 +80,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1463396205" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1463396205">
+    <transform xil_pn:end_ts="1463423268" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1463423268">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="dds.vhd"/>
@@ -88,11 +88,9 @@
       <outfile xil_pn:name="helpers.vhd"/>
       <outfile xil_pn:name="lcd_driver.vhd"/>
     </transform>
-    <transform xil_pn:end_ts="1463396206" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-6917596232395121981" xil_pn:start_ts="1463396205">
+    <transform xil_pn:end_ts="1463423273" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-6917596232395121981" xil_pn:start_ts="1463423268">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="dds_tb_beh.prj"/>
       <outfile xil_pn:name="dds_tb_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
@@ -100,7 +98,7 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1463405352" xil_pn:in_ck="5986968781955972703" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-7301171803071747408" xil_pn:start_ts="1463405351">
+    <transform xil_pn:end_ts="1463423273" xil_pn:in_ck="5986968781955972703" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-7301171803071747408" xil_pn:start_ts="1463423273">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="dds_tb_isim_beh.wdb"/>
@@ -135,7 +133,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1463396180" xil_pn:in_ck="-8475077075915550756" xil_pn:name="TRANEXT_xstsynthesize_spartan3e" xil_pn:prop_ck="-7698400163542717516" xil_pn:start_ts="1463396172">
+    <transform xil_pn:end_ts="1463423247" xil_pn:in_ck="-8475077075915550756" xil_pn:name="TRANEXT_xstsynthesize_spartan3e" xil_pn:prop_ck="-7698400163542717516" xil_pn:start_ts="1463423207">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
