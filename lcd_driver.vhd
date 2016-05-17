@@ -44,7 +44,8 @@ use ieee.numeric_std.all;
 --use UNISIM.VComponents.all;
 
 entity lcd_driver is
-    generic (   clk_freq        : natural := 50000000;  -- frequency of clk (50MHz) in hz
+    generic (   NBITS           : natural := 16;        -- counter bit size
+                clk_freq        : natural := 50000000;  -- frequency of clk (50MHz) in hz
                 wait_40000us    : natural := 40000;     -- wait 40ms
                 wait_37us       : natural := 37;        -- wait 37us
                 wait_1520us     : natural := 1520);     -- wait 1.52ms
@@ -83,10 +84,10 @@ architecture Behavioral of lcd_driver is
     signal ret_state : display_state := INIT; -- ret_state register
     signal next_ret_state : display_state := INIT; -- next_ret_state register
     
-    signal cur_counter : unsigned(15 downto 0) := (others => '0'); -- 10bit counter signal
-    signal next_counter : unsigned(15 downto 0) := (others => '0');
-    signal ret_counter : unsigned(15 downto 0) := (others => '0'); -- 10bit counter signal
-    signal next_ret_counter : unsigned(15 downto 0) := (others => '0'); 
+    signal cur_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- 10bit counter signal
+    signal next_counter : unsigned(NBITS-1 downto 0) := (others => '0');
+    signal ret_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- 10bit counter signal
+    signal next_ret_counter : unsigned(NBITS-1 downto 0) := (others => '0'); 
     
     signal next_lcd_db : STD_LOGIC_VECTOR(7 downto 0) := (others => '0'); -- next lcd databus
     signal next_lcd_en : STD_LOGIC := '0'; -- next lcd enable
@@ -158,7 +159,7 @@ begin
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_FS;
-                next_ret_counter <= to_unsigned(INIT_COUNT,16);
+                next_ret_counter <= to_unsigned(INIT_COUNT,NBITS);
                 next_state <= COUNT;
                 
             when SEND_FS => 
@@ -170,7 +171,7 @@ begin
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_SD;
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,16);
+                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= COUNT;
                 
             when SEND_SD =>
@@ -182,7 +183,7 @@ begin
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_CD;
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,16);
+                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= COUNT;
 
             when SEND_CD => 
@@ -194,7 +195,7 @@ begin
                 
                 next_counter <= (others => '0');
                 next_ret_state <= PAUSE; 
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,16);
+                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= COUNT;
 
             when PAUSE =>
@@ -206,7 +207,7 @@ begin
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_ES;
-                next_ret_counter <= to_unsigned(CLEAR_DISPLAY_COUNT,16);
+                next_ret_counter <= to_unsigned(CLEAR_DISPLAY_COUNT,NBITS);
                 next_state <= COUNT;
 
             when SEND_ES =>
@@ -218,7 +219,7 @@ begin
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_SA;
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,16);
+                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= COUNT;
 
             when SEND_SA =>
@@ -230,10 +231,11 @@ begin
                 
                 next_counter <= (others => '0');
                 next_ret_state <= DONE;
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,16);
+                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= COUNT;
 
             when COUNT =>
+
                 if(cur_counter >= ret_counter) then
                     next_state <= ret_state;
                 end if;
