@@ -60,7 +60,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1463423268" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1463423268">
+    <transform xil_pn:end_ts="1463480524" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1463480524">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="dds.vhd"/>
@@ -80,7 +80,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1463423268" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1463423268">
+    <transform xil_pn:end_ts="1463480524" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1463480524">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="dds.vhd"/>
@@ -88,9 +88,11 @@
       <outfile xil_pn:name="helpers.vhd"/>
       <outfile xil_pn:name="lcd_driver.vhd"/>
     </transform>
-    <transform xil_pn:end_ts="1463423273" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-6917596232395121981" xil_pn:start_ts="1463423268">
+    <transform xil_pn:end_ts="1463480530" xil_pn:in_ck="-1527320413769792740" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-6917596232395121981" xil_pn:start_ts="1463480524">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="dds_tb_beh.prj"/>
       <outfile xil_pn:name="dds_tb_isim_beh.exe"/>
       <outfile xil_pn:name="fuse.log"/>
@@ -98,9 +100,11 @@
       <outfile xil_pn:name="isim.log"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1463423273" xil_pn:in_ck="5986968781955972703" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-7301171803071747408" xil_pn:start_ts="1463423273">
+    <transform xil_pn:end_ts="1463480530" xil_pn:in_ck="5986968781955972703" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-7301171803071747408" xil_pn:start_ts="1463480530">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
       <outfile xil_pn:name="dds_tb_isim_beh.wdb"/>
       <outfile xil_pn:name="isim.cmd"/>
       <outfile xil_pn:name="isim.log"/>
@@ -133,9 +137,8 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1463423247" xil_pn:in_ck="-8475077075915550756" xil_pn:name="TRANEXT_xstsynthesize_spartan3e" xil_pn:prop_ck="-7698400163542717516" xil_pn:start_ts="1463423207">
+    <transform xil_pn:end_ts="1463480235" xil_pn:in_ck="-8475077075915550756" xil_pn:name="TRANEXT_xstsynthesize_spartan3e" xil_pn:prop_ck="-7698400163542717516" xil_pn:start_ts="1463480154">
       <status xil_pn:value="SuccessfullyRun"/>
-      <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
       <status xil_pn:value="OutputChanged"/>

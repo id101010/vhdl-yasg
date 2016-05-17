@@ -41,8 +41,7 @@ ARCHITECTURE behavior OF dds_tb IS
          clk : IN  std_logic;
          freq : IN  unsigned(16 downto 0);
          form : IN  unsigned(1 downto 0);
-         amp : OUT  signed(11 downto 0);
-         update : OUT  std_logic
+         amp : OUT  unsigned(11 downto 0)
         );
     END COMPONENT;
     
@@ -53,8 +52,7 @@ ARCHITECTURE behavior OF dds_tb IS
    signal form : unsigned(1 downto 0) := (others => '0');
 
  	--Outputs
-   signal amp : signed(11 downto 0);
-   signal update : std_logic;
+   signal amp : unsigned(11 downto 0);
 
    -- Clock period definitions
    constant clk_period : time := 20 ns; --50mhz
@@ -66,8 +64,7 @@ BEGIN
           clk => clk,
           freq => freq,
           form => form,
-          amp => amp,
-          update => update
+          amp => amp
         );
 
    -- Clock process definitions
@@ -87,27 +84,31 @@ BEGIN
       wait for 100 ns;	
 
    
-      freq <= to_unsigned(100000,17);
-      wait for 2000 ms;
-      
-      freq <= to_unsigned(10,17);
-       wait for 200 ms;
-       
-      freq <= to_unsigned(100,17);
-       wait for 20 ms;
-        
-      freq <= to_unsigned(1000,17);
-      wait for 2 ms;
-      
-      freq <= to_unsigned(10000,17);
-      wait for 1 ms;
-      
+ 
+      form <= "00";
       freq <= to_unsigned(50000,17);
-      wait for 1 ms;
-      
+      wait for 40 us;     
       freq <= to_unsigned(100000,17);
-      wait for 1 ms;
-      -- insert stimulus here 
+      wait for 20 us;
+      
+      form <= "01";
+      freq <= to_unsigned(50000,17);
+      wait for 40 us;     
+      freq <= to_unsigned(100000,17);
+      wait for 20 us;
+      
+      form <= "10";
+      freq <= to_unsigned(50000,17);
+      wait for 40 us;     
+      freq <= to_unsigned(100000,17);
+      wait for 20 us;
+      
+      form <= "11";
+      freq <= to_unsigned(50000,17);
+      wait for 40 us;     
+      freq <= to_unsigned(100000,17);
+      wait for 20 us;
+
 
       wait;
    end process;
