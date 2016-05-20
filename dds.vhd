@@ -30,7 +30,7 @@ entity dds is
              acc_res: natural:=32;
              phase_res: natural:=15);
     Port ( clk : in  STD_LOGIC;
-           freq : in  unsigned (log2_int(max_freq)-1 downto 0);
+           freq : in  unsigned (16 downto 0); --log2_int(max_freq)-1
            form : in  unsigned (1 downto 0);
            amp : out  unsigned (adc_res-1 downto 0));
 end dds;

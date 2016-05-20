@@ -1,0 +1,5 @@
+MODULE toplevel
+	SUBMODULE spi_driver
+		INSTANCE XLXI_1
+	SUBMODULE dds
+		INSTANCE XLXI_2
