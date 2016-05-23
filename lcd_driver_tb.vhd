@@ -103,15 +103,14 @@ BEGIN
    begin		
    
       reset <= '1';
-      
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-      
+      wait for 100 ns;  -- hold reset state for 100 ns.
       reset <= '0';
+      
+      -- Apply Data 
+      --data = ''
 
       wait for clk_period*10;
       
-
       -- insert stimulus here 
 
       wait;

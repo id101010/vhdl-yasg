@@ -44,7 +44,7 @@ use ieee.numeric_std.all;
 --use UNISIM.VComponents.all;
 
 entity lcd_driver is
-    generic (   NBITS           : natural := 16;        -- counter bit size
+    generic (   NBITS           : natural := 21;        -- counter bit size
                 clk_freq        : natural := 50000000;  -- frequency of clk (50MHz) in hz
                 wait_40000us    : natural := 40000;     -- wait 40ms
                 wait_37us       : natural := 37;        -- wait 37us
@@ -84,9 +84,9 @@ architecture Behavioral of lcd_driver is
     signal ret_state : display_state := INIT; -- ret_state register
     signal next_ret_state : display_state := INIT; -- next_ret_state register
     
-    signal cur_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- 10bit counter signal
+    signal cur_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- n bit counter signal
     signal next_counter : unsigned(NBITS-1 downto 0) := (others => '0');
-    signal ret_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- 10bit counter signal
+    signal ret_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- n bit counter signal
     signal next_ret_counter : unsigned(NBITS-1 downto 0) := (others => '0'); 
     
     signal next_lcd_db : STD_LOGIC_VECTOR(7 downto 0) := (others => '0'); -- next lcd databus
@@ -155,7 +155,7 @@ begin
                 next_lcd_db <= "00000000";
                 next_lcd_en <= '0';
                 next_lcd_rw <= '0';
-                next_lcd_rs <= '1';
+                next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_FS;
@@ -196,14 +196,14 @@ begin
                 next_counter <= (others => '0');
                 next_ret_state <= PAUSE; 
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                next_state <= COUNT;
+                next_state <= PAUSE;
 
             when PAUSE =>
             
                 next_lcd_db <= "00000000";
                 next_lcd_en <= '0';
                 next_lcd_rw <= '0';
-                next_lcd_rs <= '1';
+                next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_ES;
@@ -211,7 +211,8 @@ begin
                 next_state <= COUNT;
 
             when SEND_ES =>
-            
+                
+                
                 next_lcd_db <= "00000110";
                 next_lcd_en <= '0';
                 next_lcd_rw <= '0';
@@ -238,6 +239,7 @@ begin
 
                 if(cur_counter >= ret_counter) then
                     next_state <= ret_state;
+                    next_lcd_en <= '1'; 
                 end if;
                 
             when DONE =>
