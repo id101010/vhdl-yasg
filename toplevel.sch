@@ -6,11 +6,10 @@
         <trait edittrait="all:0" />
     </attr>
     <netlist>
+        <signal name="XLXN_67" />
         <signal name="FORM(1:0)" />
-        <signal name="FORM(0)">
-        </signal>
-        <signal name="FORM(1)">
-        </signal>
+        <signal name="FORM(0)" />
+        <signal name="FORM(1)" />
         <signal name="CLK_50MHZ" />
         <signal name="XLXN_9(11:0)" />
         <signal name="XLXN_10" />
@@ -18,7 +17,6 @@
         <signal name="DAC_CS" />
         <signal name="SPI_MOSI" />
         <signal name="FREQ(16:0)" />
-        <signal name="FREQ(15:0)" />
         <signal name="J18_IO4" />
         <signal name="J18_IO2" />
         <signal name="J18_IO3" />
@@ -28,8 +26,12 @@
         <signal name="LED0" />
         <signal name="SW0" />
         <signal name="SW1" />
-        <signal name="XLXN_40" />
-        <signal name="FREQ(16)" />
+        <signal name="XLXN_63" />
+        <signal name="XLXN_64" />
+        <signal name="XLXN_65" />
+        <signal name="XLXN_66" />
+        <signal name="ROT_A" />
+        <signal name="ROT_B" />
         <port polarity="Input" name="CLK_50MHZ" />
         <port polarity="Output" name="SPI_SCK" />
         <port polarity="Output" name="DAC_CS" />
@@ -42,6 +44,8 @@
         <port polarity="Output" name="LED0" />
         <port polarity="Input" name="SW0" />
         <port polarity="Input" name="SW1" />
+        <port polarity="Input" name="ROT_A" />
+        <port polarity="Input" name="ROT_B" />
         <blockdef name="spi_driver">
             <timestamp>2016-5-20T8:33:2</timestamp>
             <rect width="256" x="64" y="-192" height="192" />
@@ -63,11 +67,6 @@
             <line x2="0" y1="-32" y2="-32" x1="64" />
             <rect width="64" x="320" y="-172" height="24" />
             <line x2="384" y1="-160" y2="-160" x1="320" />
-        </blockdef>
-        <blockdef name="constant">
-            <timestamp>2006-1-1T10:10:10</timestamp>
-            <rect width="112" x="0" y="0" height="64" />
-            <line x2="112" y1="32" y2="32" x1="144" />
         </blockdef>
         <blockdef name="gnd">
             <timestamp>2000-1-1T10:10:10</timestamp>
@@ -92,6 +91,33 @@
             <line x2="64" y1="0" y2="-32" x1="64" />
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
+        <blockdef name="controller">
+            <timestamp>2016-5-23T16:56:10</timestamp>
+            <rect width="304" x="64" y="-320" height="320" />
+            <line x2="0" y1="-288" y2="-288" x1="64" />
+            <line x2="0" y1="-224" y2="-224" x1="64" />
+            <line x2="0" y1="-160" y2="-160" x1="64" />
+            <line x2="0" y1="-96" y2="-96" x1="64" />
+            <line x2="0" y1="-32" y2="-32" x1="64" />
+            <rect width="64" x="368" y="-300" height="24" />
+            <line x2="432" y1="-288" y2="-288" x1="368" />
+        </blockdef>
+        <blockdef name="rotary_dec">
+            <timestamp>2016-5-23T16:56:27</timestamp>
+            <rect width="256" x="64" y="-192" height="192" />
+            <line x2="0" y1="-160" y2="-160" x1="64" />
+            <line x2="0" y1="-96" y2="-96" x1="64" />
+            <line x2="0" y1="-32" y2="-32" x1="64" />
+            <line x2="384" y1="-160" y2="-160" x1="320" />
+            <line x2="384" y1="-96" y2="-96" x1="320" />
+            <line x2="384" y1="-32" y2="-32" x1="320" />
+        </blockdef>
+        <block symbolname="dds" name="XLXI_2">
+            <blockpin signalname="CLK_50MHZ" name="clk" />
+            <blockpin signalname="FREQ(16:0)" name="freq(16:0)" />
+            <blockpin signalname="FORM(1:0)" name="form(1:0)" />
+            <blockpin signalname="XLXN_9(11:0)" name="amp(11:0)" />
+        </block>
         <block symbolname="spi_driver" name="XLXI_1">
             <blockpin signalname="CLK_50MHZ" name="clk" />
             <blockpin signalname="XLXN_10" name="rst" />
@@ -100,25 +126,8 @@
             <blockpin signalname="DAC_CS" name="cs" />
             <blockpin signalname="SPI_MOSI" name="mosi" />
         </block>
-        <block symbolname="dds" name="XLXI_2">
-            <blockpin signalname="CLK_50MHZ" name="clk" />
-            <blockpin signalname="FREQ(16:0)" name="freq(16:0)" />
-            <blockpin signalname="FORM(1:0)" name="form(1:0)" />
-            <blockpin signalname="XLXN_9(11:0)" name="amp(11:0)" />
-        </block>
         <block symbolname="gnd" name="XLXI_7">
             <blockpin signalname="XLXN_10" name="G" />
-        </block>
-        <block symbolname="gnd" name="XLXI_10">
-            <blockpin signalname="FREQ(16)" name="G" />
-        </block>
-        <block symbolname="constant" name="XLXI_3">
-            <attr value="03E8" name="CValue">
-                <trait delete="all:1 sym:0" />
-                <trait editname="all:1 sch:0" />
-                <trait valuetype="BitVector 32 Hexadecimal" />
-            </attr>
-            <blockpin signalname="FREQ(15:0)" name="O" />
         </block>
         <block symbolname="buf" name="XLXI_14">
             <blockpin signalname="SPI_SCK" name="I" />
@@ -136,12 +145,12 @@
             <blockpin signalname="CLK_50MHZ" name="I" />
             <blockpin signalname="J18_IO1" name="O" />
         </block>
-        <block symbolname="vcc" name="XLXI_20">
-            <blockpin signalname="XLXN_30" name="P" />
-        </block>
         <block symbolname="buf" name="XLXI_19">
             <blockpin signalname="XLXN_30" name="I" />
             <blockpin signalname="DAC_CLR" name="O" />
+        </block>
+        <block symbolname="vcc" name="XLXI_20">
+            <blockpin signalname="XLXN_30" name="P" />
         </block>
         <block symbolname="buf" name="XLXI_25">
             <blockpin signalname="SW0" name="I" />
@@ -155,145 +164,186 @@
             <blockpin signalname="SW0" name="I" />
             <blockpin signalname="LED0" name="O" />
         </block>
+        <block symbolname="controller" name="XLXI_42">
+            <blockpin signalname="CLK_50MHZ" name="clk" />
+            <blockpin signalname="XLXN_66" name="rst" />
+            <blockpin signalname="XLXN_65" name="enc_updown" />
+            <blockpin signalname="XLXN_64" name="enc_ce" />
+            <blockpin signalname="XLXN_63" name="enc_err" />
+            <blockpin signalname="FREQ(16:0)" name="freq_out(16:0)" />
+        </block>
+        <block symbolname="rotary_dec" name="XLXI_43">
+            <blockpin signalname="CLK_50MHZ" name="clk" />
+            <blockpin signalname="ROT_A" name="A" />
+            <blockpin signalname="ROT_B" name="B" />
+            <blockpin signalname="XLXN_65" name="up_down" />
+            <blockpin signalname="XLXN_64" name="ce" />
+            <blockpin signalname="XLXN_63" name="error" />
+        </block>
+        <block symbolname="gnd" name="XLXI_44">
+            <blockpin signalname="XLXN_66" name="G" />
+        </block>
     </netlist>
-    <sheet sheetnum="1" width="3520" height="2720">
-        <instance x="976" y="992" name="XLXI_2" orien="R0">
+    <sheet sheetnum="1" width="5440" height="3520">
+        <instance x="2256" y="1520" name="XLXI_2" orien="R0">
         </instance>
-        <instance x="1568" y="848" name="XLXI_1" orien="R0">
+        <instance x="2848" y="1376" name="XLXI_1" orien="R0">
         </instance>
         <branch name="FORM(1:0)">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="848" y="960" type="branch" />
-            <wire x2="848" y1="960" y2="976" x1="848" />
-            <wire x2="848" y1="976" y2="1008" x1="848" />
-            <wire x2="976" y1="960" y2="960" x1="848" />
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2128" y="1488" type="branch" />
+            <wire x2="2128" y1="1488" y2="1504" x1="2128" />
+            <wire x2="2128" y1="1504" y2="1536" x1="2128" />
+            <wire x2="2256" y1="1488" y2="1488" x1="2128" />
         </branch>
-        <bustap x2="752" y1="976" y2="976" x1="848" />
-        <bustap x2="752" y1="1008" y2="1008" x1="848" />
+        <bustap x2="2032" y1="1504" y2="1504" x1="2128" />
+        <bustap x2="2032" y1="1536" y2="1536" x1="2128" />
         <branch name="FORM(0)">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="656" y="976" type="branch" />
-            <wire x2="656" y1="976" y2="976" x1="544" />
-            <wire x2="752" y1="976" y2="976" x1="656" />
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1936" y="1504" type="branch" />
+            <wire x2="1936" y1="1504" y2="1504" x1="1824" />
+            <wire x2="2032" y1="1504" y2="1504" x1="1936" />
         </branch>
         <branch name="FORM(1)">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="656" y="1040" type="branch" />
-            <wire x2="656" y1="1040" y2="1040" x1="544" />
-            <wire x2="752" y1="1040" y2="1040" x1="656" />
-            <wire x2="752" y1="1008" y2="1040" x1="752" />
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1936" y="1568" type="branch" />
+            <wire x2="1936" y1="1568" y2="1568" x1="1824" />
+            <wire x2="2032" y1="1568" y2="1568" x1="1936" />
+            <wire x2="2032" y1="1536" y2="1568" x1="2032" />
         </branch>
         <branch name="CLK_50MHZ">
-            <wire x2="976" y1="832" y2="832" x1="944" />
+            <wire x2="2256" y1="1360" y2="1360" x1="2224" />
         </branch>
-        <iomarker fontsize="28" x="944" y="832" name="CLK_50MHZ" orien="R180" />
         <branch name="XLXN_9(11:0)">
-            <wire x2="1456" y1="832" y2="832" x1="1360" />
-            <wire x2="1456" y1="816" y2="832" x1="1456" />
-            <wire x2="1568" y1="816" y2="816" x1="1456" />
+            <wire x2="2736" y1="1360" y2="1360" x1="2640" />
+            <wire x2="2736" y1="1344" y2="1360" x1="2736" />
+            <wire x2="2848" y1="1344" y2="1344" x1="2736" />
         </branch>
-        <instance x="1296" y="736" name="XLXI_7" orien="R0" />
+        <instance x="2576" y="1264" name="XLXI_7" orien="R0" />
         <branch name="XLXN_10">
-            <wire x2="1360" y1="544" y2="608" x1="1360" />
-            <wire x2="1440" y1="544" y2="544" x1="1360" />
-            <wire x2="1440" y1="544" y2="752" x1="1440" />
-            <wire x2="1568" y1="752" y2="752" x1="1440" />
+            <wire x2="2640" y1="1072" y2="1136" x1="2640" />
+            <wire x2="2720" y1="1072" y2="1072" x1="2640" />
+            <wire x2="2720" y1="1072" y2="1280" x1="2720" />
+            <wire x2="2848" y1="1280" y2="1280" x1="2720" />
         </branch>
         <branch name="SPI_SCK">
-            <wire x2="1984" y1="688" y2="688" x1="1952" />
-            <wire x2="2112" y1="688" y2="688" x1="1984" />
-            <wire x2="1984" y1="608" y2="688" x1="1984" />
-            <wire x2="2112" y1="608" y2="608" x1="1984" />
+            <wire x2="3264" y1="1216" y2="1216" x1="3232" />
+            <wire x2="3392" y1="1216" y2="1216" x1="3264" />
+            <wire x2="3264" y1="1136" y2="1216" x1="3264" />
+            <wire x2="3392" y1="1136" y2="1136" x1="3264" />
         </branch>
         <branch name="DAC_CS">
-            <wire x2="1984" y1="752" y2="752" x1="1952" />
-            <wire x2="2112" y1="752" y2="752" x1="1984" />
-            <wire x2="1984" y1="720" y2="752" x1="1984" />
-            <wire x2="2336" y1="720" y2="720" x1="1984" />
+            <wire x2="3264" y1="1280" y2="1280" x1="3232" />
+            <wire x2="3392" y1="1280" y2="1280" x1="3264" />
+            <wire x2="3264" y1="1248" y2="1280" x1="3264" />
+            <wire x2="3616" y1="1248" y2="1248" x1="3264" />
         </branch>
         <branch name="SPI_MOSI">
-            <wire x2="1984" y1="816" y2="816" x1="1952" />
-            <wire x2="2112" y1="816" y2="816" x1="1984" />
-            <wire x2="1984" y1="784" y2="816" x1="1984" />
-            <wire x2="2336" y1="784" y2="784" x1="1984" />
+            <wire x2="3264" y1="1344" y2="1344" x1="3232" />
+            <wire x2="3392" y1="1344" y2="1344" x1="3264" />
+            <wire x2="3264" y1="1312" y2="1344" x1="3264" />
+            <wire x2="3616" y1="1312" y2="1312" x1="3264" />
         </branch>
         <branch name="FREQ(16:0)">
-            <attrtext style="alignment:SOFT-LEFT;fontsize:28;fontname:Arial" attrname="Name" x="795" y="896" type="branch" />
-            <wire x2="624" y1="816" y2="864" x1="624" />
-            <wire x2="624" y1="864" y2="896" x1="624" />
-            <wire x2="976" y1="896" y2="896" x1="624" />
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2075" y="1424" type="branch" />
+            <wire x2="1904" y1="1152" y2="1152" x1="1664" />
+            <wire x2="1904" y1="1152" y2="1344" x1="1904" />
+            <wire x2="1904" y1="1344" y2="1424" x1="1904" />
+            <wire x2="2075" y1="1424" y2="1424" x1="1904" />
+            <wire x2="2256" y1="1424" y2="1424" x1="2075" />
         </branch>
-        <bustap x2="528" y1="816" y2="816" x1="624" />
-        <bustap x2="528" y1="864" y2="864" x1="624" />
-        <branch name="FREQ(15:0)">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="464" y="864" type="branch" />
-            <wire x2="464" y1="864" y2="864" x1="352" />
-            <wire x2="528" y1="864" y2="864" x1="464" />
-        </branch>
-        <instance x="352" y="768" name="XLXI_10" orien="R0" />
-        <instance x="208" y="832" name="XLXI_3" orien="R0">
-        </instance>
-        <instance x="2112" y="640" name="XLXI_14" orien="R0" />
-        <iomarker fontsize="28" x="2112" y="688" name="SPI_SCK" orien="R0" />
+        <instance x="3392" y="1168" name="XLXI_14" orien="R0" />
         <branch name="J18_IO4">
-            <wire x2="2368" y1="608" y2="608" x1="2336" />
+            <wire x2="3648" y1="1136" y2="1136" x1="3616" />
         </branch>
-        <iomarker fontsize="28" x="2112" y="752" name="DAC_CS" orien="R0" />
-        <iomarker fontsize="28" x="2112" y="816" name="SPI_MOSI" orien="R0" />
-        <instance x="2336" y="752" name="XLXI_15" orien="R0" />
-        <instance x="2336" y="816" name="XLXI_16" orien="R0" />
+        <instance x="3616" y="1280" name="XLXI_15" orien="R0" />
+        <instance x="3616" y="1344" name="XLXI_16" orien="R0" />
         <branch name="J18_IO2">
-            <wire x2="2592" y1="720" y2="720" x1="2560" />
+            <wire x2="3872" y1="1248" y2="1248" x1="3840" />
         </branch>
-        <iomarker fontsize="28" x="2592" y="720" name="J18_IO2" orien="R0" />
         <branch name="J18_IO3">
-            <wire x2="2592" y1="784" y2="784" x1="2560" />
+            <wire x2="3872" y1="1312" y2="1312" x1="3840" />
         </branch>
-        <iomarker fontsize="28" x="2592" y="784" name="J18_IO3" orien="R0" />
         <branch name="CLK_50MHZ">
-            <wire x2="1552" y1="432" y2="432" x1="1504" />
-            <wire x2="1552" y1="432" y2="688" x1="1552" />
-            <wire x2="1568" y1="688" y2="688" x1="1552" />
-            <wire x2="1664" y1="432" y2="432" x1="1552" />
+            <wire x2="2832" y1="960" y2="960" x1="2784" />
+            <wire x2="2832" y1="960" y2="1216" x1="2832" />
+            <wire x2="2848" y1="1216" y2="1216" x1="2832" />
+            <wire x2="2944" y1="960" y2="960" x1="2832" />
         </branch>
-        <instance x="1664" y="464" name="XLXI_17" orien="R0" />
+        <instance x="2944" y="992" name="XLXI_17" orien="R0" />
         <branch name="J18_IO1">
-            <wire x2="1920" y1="432" y2="432" x1="1888" />
+            <wire x2="3200" y1="960" y2="960" x1="3168" />
         </branch>
-        <iomarker fontsize="28" x="1920" y="432" name="J18_IO1" orien="R0" />
-        <iomarker fontsize="28" x="2368" y="608" name="J18_IO4" orien="R0" />
-        <iomarker fontsize="28" x="1504" y="432" name="CLK_50MHZ" orien="R180" />
-        <instance x="1856" y="1312" name="XLXI_19" orien="R0" />
+        <instance x="3136" y="1840" name="XLXI_19" orien="R0" />
         <branch name="XLXN_30">
-            <wire x2="1856" y1="1280" y2="1280" x1="1824" />
+            <wire x2="3136" y1="1808" y2="1808" x1="3104" />
         </branch>
         <branch name="DAC_CLR">
-            <wire x2="2112" y1="1280" y2="1280" x1="2080" />
+            <wire x2="3392" y1="1808" y2="1808" x1="3360" />
         </branch>
-        <iomarker fontsize="28" x="2112" y="1280" name="DAC_CLR" orien="R0" />
-        <instance x="1760" y="1280" name="XLXI_20" orien="R0" />
+        <instance x="3040" y="1808" name="XLXI_20" orien="R0" />
         <branch name="LED0">
-            <wire x2="592" y1="1120" y2="1120" x1="544" />
+            <wire x2="1872" y1="1648" y2="1648" x1="1824" />
         </branch>
-        <iomarker fontsize="28" x="592" y="1120" name="LED0" orien="R0" />
-        <instance x="320" y="1008" name="XLXI_25" orien="R0" />
-        <instance x="320" y="1072" name="XLXI_26" orien="R0" />
+        <instance x="1600" y="1536" name="XLXI_25" orien="R0" />
+        <instance x="1600" y="1600" name="XLXI_26" orien="R0" />
         <branch name="SW0">
-            <wire x2="288" y1="976" y2="976" x1="224" />
-            <wire x2="288" y1="976" y2="1120" x1="288" />
-            <wire x2="320" y1="1120" y2="1120" x1="288" />
-            <wire x2="320" y1="976" y2="976" x1="288" />
+            <wire x2="1568" y1="1504" y2="1504" x1="1504" />
+            <wire x2="1568" y1="1504" y2="1648" x1="1568" />
+            <wire x2="1600" y1="1648" y2="1648" x1="1568" />
+            <wire x2="1600" y1="1504" y2="1504" x1="1568" />
         </branch>
         <branch name="SW1">
-            <wire x2="320" y1="1040" y2="1040" x1="224" />
+            <wire x2="1600" y1="1568" y2="1568" x1="1504" />
         </branch>
-        <instance x="320" y="1152" name="XLXI_27" orien="R0" />
-        <iomarker fontsize="28" x="224" y="1040" name="SW1" orien="R180" />
-        <iomarker fontsize="28" x="224" y="976" name="SW0" orien="R180" />
-        <branch name="FREQ(16)">
-            <attrtext style="alignment:SOFT-TVCENTER;fontsize:28;fontname:Arial" attrname="Name" x="512" y="736" type="branch" />
-            <wire x2="416" y1="624" y2="640" x1="416" />
-            <wire x2="512" y1="624" y2="624" x1="416" />
-            <wire x2="512" y1="624" y2="736" x1="512" />
-            <wire x2="512" y1="736" y2="816" x1="512" />
-            <wire x2="528" y1="816" y2="816" x1="512" />
+        <instance x="1600" y="1680" name="XLXI_27" orien="R0" />
+        <instance x="1232" y="1440" name="XLXI_42" orien="R0">
+        </instance>
+        <instance x="768" y="1440" name="XLXI_43" orien="R0">
+        </instance>
+        <branch name="XLXN_63">
+            <wire x2="1232" y1="1408" y2="1408" x1="1152" />
         </branch>
+        <branch name="XLXN_64">
+            <wire x2="1232" y1="1344" y2="1344" x1="1152" />
+        </branch>
+        <branch name="XLXN_65">
+            <wire x2="1232" y1="1280" y2="1280" x1="1152" />
+        </branch>
+        <instance x="1072" y="1200" name="XLXI_44" orien="R0" />
+        <branch name="XLXN_66">
+            <wire x2="1136" y1="1056" y2="1072" x1="1136" />
+            <wire x2="1184" y1="1056" y2="1056" x1="1136" />
+            <wire x2="1184" y1="1056" y2="1216" x1="1184" />
+            <wire x2="1232" y1="1216" y2="1216" x1="1184" />
+        </branch>
+        <branch name="CLK_50MHZ">
+            <wire x2="1216" y1="976" y2="976" x1="1136" />
+            <wire x2="1216" y1="976" y2="1152" x1="1216" />
+            <wire x2="1232" y1="1152" y2="1152" x1="1216" />
+        </branch>
+        <branch name="ROT_A">
+            <wire x2="768" y1="1344" y2="1344" x1="736" />
+        </branch>
+        <branch name="ROT_B">
+            <wire x2="768" y1="1408" y2="1408" x1="736" />
+        </branch>
+        <branch name="CLK_50MHZ">
+            <wire x2="768" y1="1280" y2="1280" x1="736" />
+        </branch>
+        <iomarker fontsize="28" x="2224" y="1360" name="CLK_50MHZ" orien="R180" />
+        <iomarker fontsize="28" x="3392" y="1216" name="SPI_SCK" orien="R0" />
+        <iomarker fontsize="28" x="3392" y="1280" name="DAC_CS" orien="R0" />
+        <iomarker fontsize="28" x="3392" y="1344" name="SPI_MOSI" orien="R0" />
+        <iomarker fontsize="28" x="3872" y="1248" name="J18_IO2" orien="R0" />
+        <iomarker fontsize="28" x="3872" y="1312" name="J18_IO3" orien="R0" />
+        <iomarker fontsize="28" x="3200" y="960" name="J18_IO1" orien="R0" />
+        <iomarker fontsize="28" x="3648" y="1136" name="J18_IO4" orien="R0" />
+        <iomarker fontsize="28" x="2784" y="960" name="CLK_50MHZ" orien="R180" />
+        <iomarker fontsize="28" x="3392" y="1808" name="DAC_CLR" orien="R0" />
+        <iomarker fontsize="28" x="1872" y="1648" name="LED0" orien="R0" />
+        <iomarker fontsize="28" x="1504" y="1568" name="SW1" orien="R180" />
+        <iomarker fontsize="28" x="1504" y="1504" name="SW0" orien="R180" />
+        <iomarker fontsize="28" x="1136" y="976" name="CLK_50MHZ" orien="R180" />
+        <iomarker fontsize="28" x="736" y="1344" name="ROT_A" orien="R180" />
+        <iomarker fontsize="28" x="736" y="1408" name="ROT_B" orien="R180" />
+        <iomarker fontsize="28" x="736" y="1280" name="CLK_50MHZ" orien="R180" />
     </sheet>
 </drawing>

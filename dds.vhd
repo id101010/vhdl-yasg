@@ -55,7 +55,7 @@ begin
 
     -- m = fout*(2^n)/fclk
     m <= resize(divide(shift_left(resize(freq,64),acc_res),to_unsigned(clk_freq,64)),m'length);
-    idx_phase <= idx(acc_res -1 downto acc_res - phase_res);
+	 idx_phase <= idx(acc_res -1 downto acc_res - phase_res);
        
     amp_rect <= to_unsigned(0,adc_res) when idx_phase(phase_res-1)='0' else 
                 to_unsigned((2**adc_res)-1,adc_res);
