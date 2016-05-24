@@ -25,12 +25,12 @@ use work.helpers.all;
 
 entity dds is
     Generic (clk_freq: natural:= 50000000;
-             max_freq: natural := 100000;
-             adc_res: natural:=12;
-             acc_res: natural:=32;
-             phase_res: natural:=15);
+             freq_res: natural:=17; -- width of frequency input (log2(max_freq))
+             adc_res: natural:=12; -- width of the ouput signal (=adc resolution)
+             acc_res: natural:=32; -- width of the phase accumulator
+             phase_res: natural:=15); -- effective phase resolution for lookup tables
     Port ( clk : in  STD_LOGIC;
-           freq : in  unsigned (16 downto 0); --log2_int(max_freq)-1
+           freq : in  unsigned (freq_res-1 downto 0);
            form : in  unsigned (1 downto 0);
            amp : out  unsigned (adc_res-1 downto 0));
 end dds;
@@ -53,8 +53,12 @@ architecture Behavioral of dds is
    
 begin
 
-    -- m = fout*(2^n)/fclk
-    m <= resize(divide(shift_left(resize(freq,64),acc_res),to_unsigned(clk_freq,64)),m'length);
+    -- m = fout*(2^n)/fclk = fout*((2^n)*(2^k)/fclk)/(2^k)   with k=ceil(log2(fclk)), n=acc_res
+	 m <= resize(  (resize(freq,64) 
+					   * 
+					   (shift_left(to_unsigned(1,64),acc_res + log2_int(clk_freq)) / clk_freq)) 
+					  /to_unsigned(2**log2_int(clk_freq),64),acc_res);
+
 	 idx_phase <= idx(acc_res -1 downto acc_res - phase_res);
        
     amp_rect <= to_unsigned(0,adc_res) when idx_phase(phase_res-1)='0' else 
