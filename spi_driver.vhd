@@ -40,42 +40,49 @@ end spi_driver;
 architecture Behavioral of spi_driver is
 	type states is(S_IDLE, S_WORK);
 	signal state_reg, state_next: states := S_IDLE;
-	signal counter, counter_next: unsigned(5 downto 0) := (others => '0'); 
-	signal data: unsigned(23 downto 0);
+	signal counter_reg, counter_next: unsigned(5 downto 0) := (others => '0'); 
+	signal shift_reg, shift_next: unsigned(19 downto 0):= (others => '0'); 
 begin
 	REGS: process (clk, rst) is
 	begin                                   -- process start
 	  if rst = '1' then                 -- asynchronous reset (active high)
 			state_reg <= S_IDLE;
-			counter <= to_unsigned(0,counter'length);
+			counter_reg <= to_unsigned(0,counter_reg'length);
+			shift_reg <= to_unsigned(0,shift_reg'length);
 	  elsif rising_edge(clk) then         -- rising clock edge
 			state_reg <= state_next;
-			counter <= counter_next;
+			counter_reg <= counter_next;
+			shift_reg <= shift_next;
 	  end if;
 	end process REGS;
 
-	data(23 downto 20) <= "0011";  --Command: Write to and Update (Power Up) 
-	data(19 downto 16) <= "0000";  --Adress: DAC0
-	data(15 downto 4) <= val; -- DAC Value (12bit)
-	data(3 downto 0) <= "0000"; -- 4x don't care
-
-	mosi <= data(23 - to_integer(counter srl 1)) when state_reg=S_WORK else '0';
-	sck <= '1' when state_reg=S_WORK and counter(0)='1' else '0';
+	mosi <= shift_reg(shift_reg'high) when state_reg=S_WORK else '0';
+	sck <= '1' when state_reg=S_WORK and counter_reg(0)='1' else '0';
 	cs <= '1' when state_reg =S_IDLE else '0';
 
-	NSL: process (state_reg, counter) is
+	NSL: process (state_reg, counter_reg, shift_reg, val) is
 	begin   
 		state_next <= state_reg;
-		counter_next <= counter;
+		counter_next <= counter_reg;
+		shift_next <= shift_reg;
 		case state_reg is -- switch on current state
 			when S_IDLE => -- currently in idle state
 				state_next <= S_WORK;
-				counter_next <= to_unsigned(0,counter'length);
+				counter_next <= to_unsigned(0,counter_reg'length);
+				
+				shift_next(19 downto 16) <= "0011";  --Command: Write to and Update (Power Up) 
+				shift_next(15 downto 12) <= "0000";  --Adress: DAC0
+				shift_next(11 downto 0) <= val; -- DAC Value (12bit)
+				--shift_next(0 downto -3) <= "XXXX"; -- 4x don't care
+				
 			when S_WORK => -- currently in work state
-				if(counter = 24*2 -1) then
+				if(counter_reg = 24*2 -1) then
 					state_next <= S_IDLE;
 				else
-					counter_next<= counter + 1;
+					counter_next<= counter_reg + 1;
+				end if;
+				if(counter_reg(0)='1') then
+					shift_next <= shift_left(shift_reg,1);
 				end if;
 			when others => null; -- do nothing, if we are in a different state
 		end case;	
