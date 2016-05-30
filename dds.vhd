@@ -28,7 +28,7 @@ entity dds is
              freq_res: natural:=17; -- width of frequency input (log2(max_freq))
              adc_res: natural:=12; -- width of the ouput signal (=adc resolution)
              acc_res: natural:=32; -- width of the phase accumulator
-             phase_res: natural:=15); -- effective phase resolution for lookup tables
+             phase_res: natural:=10); -- effective phase resolution for sin lookup table
     Port ( clk : in  STD_LOGIC;
            freq : in  unsigned (freq_res-1 downto 0);
            form : in  unsigned (1 downto 0);
@@ -40,13 +40,16 @@ architecture Behavioral of dds is
     signal idx_phase : unsigned(phase_res-1 downto 0) := (others => '0');  
     signal amp_rect, amp_saw, amp_tria, amp_sin : unsigned (adc_res-1 downto 0);
     
-    type storage is array (((2**phase_res)/4)-1 downto 0) of unsigned (adc_res-2 downto 0);
+    --type storage is array (((2**phase_res)/4)-1 downto 0) of unsigned (adc_res-2 downto 0);
+	 type storage is array (((2**phase_res))-1 downto 0) of unsigned (adc_res-1 downto 0);
     function gen_sin_wave return storage is
         variable temp : storage;
         begin
             forLoop: for i in 0 to temp'high loop
-                temp(i) := to_unsigned(integer(real((2**(adc_res-1))-1)*sin((real(i)*MATH_PI/2.0)/real(temp'high))),adc_res-1);
-            end loop;
+                --temp(i) := to_unsigned(integer(real((2**(adc_res-1))-1)*sin((real(i)*MATH_PI/2.0)/real(temp'high))),adc_res-1);
+					temp(i) := to_unsigned(integer(real(2**(adc_res-1) -1)  + real((2**(adc_res-1))-1)*sin((real(i)*MATH_PI*2.0)/real(temp'high))),adc_res);
+            	
+				end loop;
         return temp;
     end function gen_sin_wave;
     constant sin_wave : storage := gen_sin_wave;
@@ -72,7 +75,8 @@ begin
 
 	 
 	 
-	 --idx_phase <= idx(acc_res -1 downto acc_res - phase_res);
+	 idx_phase <= idx(acc_res -1 downto acc_res - phase_res);
+	 amp_sin <= sin_wave(to_integer(idx_phase));
 	 
     -- Modulo is only required to prevent a synthesizer warning, but the value is actually never > 2**phase_res/4
     --amp_sin <=  to_unsigned((2**(adc_res-1)) - 1,adc_res) + sin_wave(to_integer(idx_phase) mod ((2**phase_res)/4)) when idx_phase(phase_res-1 downto phase_res-2)="00" else
