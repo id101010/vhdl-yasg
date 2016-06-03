@@ -70,7 +70,7 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
    signal lcd_rs : std_logic;
 
    -- Clock period definitions
-   constant clk_period : time := 20 ns; -- 50MHz
+   constant clk_period : time := 20 ns;
  
 BEGIN
  

@@ -46,9 +46,9 @@ use ieee.numeric_std.all;
 entity lcd_driver is
     generic (   NBITS           : natural := 21;        -- counter bit size
                 clk_freq        : natural := 50000000;  -- frequency of clk (50MHz) in hz
-                wait_40000us    : natural := 40000;     -- wait 40ms
-                wait_37us       : natural := 37;        -- wait 37us
-                wait_1520us     : natural := 1520);     -- wait 1.52ms
+                wait_init       : natural := 40000;     -- wait 40ms
+                wait_between    : natural := 37;        -- wait 37us
+                wait_pause      : natural := 1520);     -- wait 1.52ms
                 
     Port (  clk : in STD_LOGIC; -- Systemclock (50MHz)
             reset : in STD_LOGIC; -- Initialize display controller
@@ -67,13 +67,14 @@ architecture Behavioral of lcd_driver is
     -- type definitions
     type display_state is (
         INIT, -- initialization, wait for 40ms to pass
-        SEND_FS, -- send the function set
+        SEND_FS1, -- send the function set
+        SEND_FS2, -- send the function set
         SEND_SD, -- send the display ON/OFF control
         SEND_CD, -- send a clear
         SEND_ES, -- send entry mode set
-        SEND_SA, -- send the starting address
-        PAUSE, -- wait for 1.52ms
-        COUNT, -- wait and toggle lcd_en
+        WAITING1, -- wait and toggle lcd_en
+        WAITING2, -- wait and toggle lcd_en
+        WAITING3, -- wait and toggle lcd_en
         DONE); -- initialization done
         
     -- signals
@@ -100,9 +101,9 @@ architecture Behavioral of lcd_driver is
     signal cur_lcd_rs : STD_LOGIC := '0'; -- next lcd register select
     
     -- constants
-    constant  INIT_COUNT : natural := clk_freq / (1000000 / wait_40000us); -- number of clock cycles for 40us
-    constant  PAUSE_COUNT : natural := clk_freq / (1000000 / wait_37us); -- number of clock cycles for 37us
-    constant  CLEAR_DISPLAY_COUNT : natural := clk_freq / (1000000 / wait_1520us); -- number of clock cycles for 1.52ms
+    constant  INIT_COUNT : natural := clk_freq / (1000000 / wait_init); -- number of clock cycles for 40ms
+    constant  PAUSE_COUNT : natural := clk_freq / (1000000 / wait_between); -- number of clock cycles for 37us
+    constant  CLEAR_DISPLAY_COUNT : natural := clk_freq / (1000000 / wait_pause); -- number of clock cycles for 1.52ms
 
 begin
 
@@ -158,97 +159,103 @@ begin
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
-                next_ret_state <= SEND_FS;
-                next_ret_counter <= to_unsigned(INIT_COUNT,NBITS);
-                next_state <= COUNT;
+                next_ret_state <= SEND_FS1;
+                next_ret_counter <= to_unsigned(INIT_COUNT, NBITS);
+                next_state <= WAITING2;
                 
-            when SEND_FS => 
+            when SEND_FS1 => 
             
-                next_lcd_db <= "00110000";
-                next_lcd_en <= '0';
+                next_lcd_db <= "00111000";
+                next_lcd_en <= '1';
+                next_lcd_rw <= '0';
+                next_lcd_rs <= '0';
+                
+                next_counter <= (others => '0');
+                next_ret_state <= SEND_FS2;
+                next_ret_counter <= to_unsigned(PAUSE_COUNT, NBITS);
+                next_state <= WAITING1;
+                
+            when SEND_FS2 =>
+            
+                next_lcd_db <= "00111000";
+                next_lcd_en <= '1';
                 next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_SD;
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                next_state <= COUNT;
+                next_state <= WAITING1;
                 
             when SEND_SD =>
             
                 next_lcd_db <= "00001111";
-                next_lcd_en <= '0';
+                next_lcd_en <= '1';
                 next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
                 next_ret_state <= SEND_CD;
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                next_state <= COUNT;
+                next_state <= WAITING1;
 
             when SEND_CD => 
 
                 next_lcd_db <= "00000001";
-                next_lcd_en <= '0';
+                next_lcd_en <= '1';
                 next_lcd_rw <= '0';
                 next_lcd_rs <= '0';   
                 
                 next_counter <= (others => '0');
-                next_ret_state <= PAUSE; 
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                next_state <= PAUSE;
-
-            when PAUSE =>
-            
-                next_lcd_db <= "00000000";
-                next_lcd_en <= '0';
-                next_lcd_rw <= '0';
-                next_lcd_rs <= '0';
-                
-                next_counter <= (others => '0');
-                next_ret_state <= SEND_ES;
+                next_ret_state <= SEND_ES; 
                 next_ret_counter <= to_unsigned(CLEAR_DISPLAY_COUNT,NBITS);
-                next_state <= COUNT;
+                next_state <= WAITING3;
 
             when SEND_ES =>
                 
-                
                 next_lcd_db <= "00000110";
-                next_lcd_en <= '0';
-                next_lcd_rw <= '0';
-                next_lcd_rs <= '0';
-                
-                next_counter <= (others => '0');
-                next_ret_state <= SEND_SA;
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                next_state <= COUNT;
-
-            when SEND_SA =>
-            
-                next_lcd_db <= "10000000";
-                next_lcd_en <= '0';
+                next_lcd_en <= '1';
                 next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
                 next_ret_state <= DONE;
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                next_state <= COUNT;
-
-            when COUNT =>
-
-                if(cur_counter >= ret_counter) then
-                    next_state <= ret_state;
-                    next_lcd_en <= '1'; 
-                end if;
+                next_state <= WAITING1;
                 
             when DONE =>
             
-                next_lcd_db <= "10000000";
-                next_lcd_en <= '0';
+                next_lcd_db <= "00000000";
+                next_lcd_en <= '1';
                 next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 init_done <= '1';
+
+            when WAITING1 =>
+
+                if(cur_counter >= ret_counter) then
+                    next_state <= WAITING2;
+                    next_counter <= (others => '0');
+                    next_ret_counter <= to_unsigned(PAUSE_COUNT, NBITS);
+                end if;
+                
+                next_lcd_en <= '1'; 
+                
+            when WAITING2 =>
+
+                if(cur_counter >= ret_counter) then
+                    next_state <= ret_state;
+                end if;
+                
+                next_lcd_en <= '0'; 
+                
+            when WAITING3 =>
+                
+                if(cur_counter >= PAUSE_COUNT) then
+                    next_state <= WAITING2;
+                    next_counter <= (others => '0');
+                end if;
+                
                 
             when others => null; -- do nothing, if we are in a different state
         end case;

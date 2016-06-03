@@ -23,31 +23,67 @@
 
   <files xmlns="http://www.xilinx.com/XMLSchema">
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name=".lso"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="_ngo"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/bitgen.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/map.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/ngdbuild.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/par.xmsgs"/>
+    <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/trce.xmsgs"/>
     <file xil_pn:fileType="FILE_XMSGS" xil_pn:name="_xmsgs/xst.xmsgs"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_LOG" xil_pn:name="isim.log"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_BITGEN_REPORT" xil_pn:name="lcd_driver.bgn" xil_pn:subbranch="FPGAConfiguration"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_BIT" xil_pn:name="lcd_driver.bit" xil_pn:subbranch="FPGAConfiguration"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGDBUILD_LOG" xil_pn:name="lcd_driver.bld"/>
     <file xil_pn:fileType="FILE_CMD_LOG" xil_pn:name="lcd_driver.cmd_log"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_BITGEN_DRC" xil_pn:name="lcd_driver.drc" xil_pn:subbranch="FPGAConfiguration"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_LSO" xil_pn:name="lcd_driver.lso"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NCD" xil_pn:name="lcd_driver.ncd" xil_pn:subbranch="Par"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGC" xil_pn:name="lcd_driver.ngc"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGD" xil_pn:name="lcd_driver.ngd"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGR" xil_pn:name="lcd_driver.ngr"/>
+    <file xil_pn:fileType="FILE_PAD_MISC" xil_pn:name="lcd_driver.pad"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAR_REPORT" xil_pn:name="lcd_driver.par" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PCF" xil_pn:name="lcd_driver.pcf" xil_pn:subbranch="Map"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="lcd_driver.prj"/>
+    <file xil_pn:fileType="FILE_TRCE_MISC" xil_pn:name="lcd_driver.ptwx"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_STX" xil_pn:name="lcd_driver.stx"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_REPORT" xil_pn:name="lcd_driver.syr"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_TIMING_TXT_REPORT" xil_pn:name="lcd_driver.twr" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_TIMING_XML_REPORT" xil_pn:name="lcd_driver.twx" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_UNROUTES" xil_pn:name="lcd_driver.unroutes" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_BITGEN_REPORT" xil_pn:name="lcd_driver.ut" xil_pn:subbranch="FPGAConfiguration"/>
+    <file xil_pn:fileType="FILE_XPI" xil_pn:name="lcd_driver.xpi"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST" xil_pn:name="lcd_driver.xst"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="lcd_driver_envsettings.html"/>
+    <file xil_pn:fileType="FILE_NCD" xil_pn:name="lcd_driver_guide.ncd" xil_pn:origination="imported"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="lcd_driver_isim_beh.exe"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="lcd_driver_stx_beh.prj"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="lcd_driver_map.map" xil_pn:subbranch="Map"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_MAP_REPORT" xil_pn:name="lcd_driver_map.mrp" xil_pn:subbranch="Map"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NCD" xil_pn:name="lcd_driver_map.ncd" xil_pn:subbranch="Map"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_NGM" xil_pn:name="lcd_driver_map.ngm" xil_pn:subbranch="Map"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="lcd_driver_map.xrpt"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="lcd_driver_ngdbuild.xrpt"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAD_EXCEL_REPORT" xil_pn:name="lcd_driver_pad.csv" xil_pn:subbranch="Par"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_PAD_TXT_REPORT" xil_pn:name="lcd_driver_pad.txt" xil_pn:subbranch="Par"/>
+    <file xil_pn:fileType="FILE_XRPT" xil_pn:name="lcd_driver_par.xrpt"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="lcd_driver_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="lcd_driver_summary.html"/>
-    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="lcd_driver_tb_beh.prj"/>
+    <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="lcd_driver_summary.xml"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="lcd_driver_tb_beh.prj"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="lcd_driver_tb_isim_beh.exe"/>
     <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="lcd_driver_tb_isim_beh.wdb"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="lcd_driver_tb_stx_beh.prj"/>
+    <file xil_pn:fileType="FILE_WEBTALK" xil_pn:name="lcd_driver_usage.xml"/>
     <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="lcd_driver_vhdl.prj"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="lcd_driver_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_HTML" xil_pn:name="usage_statistics_webtalk.html"/>
+    <file xil_pn:fileType="FILE_LOG" xil_pn:name="webtalk.log"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
     <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_INI" xil_pn:name="xilinxsim.ini"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xlnx_auto_0_xdb"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
   </files>
 
@@ -56,17 +92,17 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1464024626" xil_pn:in_ck="4963174131653437457" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1464024626">
+    <transform xil_pn:end_ts="1464963520" xil_pn:in_ck="4963174131653437457" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1464963520">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="lcd_driver.vhd"/>
       <outfile xil_pn:name="lcd_driver_tb.vhd"/>
     </transform>
-    <transform xil_pn:end_ts="1464021082" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-2560282312695158014" xil_pn:start_ts="1464021082">
+    <transform xil_pn:end_ts="1464956616" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-2560282312695158014" xil_pn:start_ts="1464956616">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1464021082" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="2072151057923631594" xil_pn:start_ts="1464021082">
+    <transform xil_pn:end_ts="1464956616" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="2072151057923631594" xil_pn:start_ts="1464956616">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
@@ -74,13 +110,13 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1464024634" xil_pn:in_ck="4963174131653437457" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1464024634">
+    <transform xil_pn:end_ts="1464963540" xil_pn:in_ck="4963174131653437457" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1464963540">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="lcd_driver.vhd"/>
       <outfile xil_pn:name="lcd_driver_tb.vhd"/>
     </transform>
-    <transform xil_pn:end_ts="1464024635" xil_pn:in_ck="4963174131653437457" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-8378225353365721463" xil_pn:start_ts="1464024634">
+    <transform xil_pn:end_ts="1464963542" xil_pn:in_ck="4963174131653437457" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-8378225353365721463" xil_pn:start_ts="1464963540">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
@@ -92,7 +128,7 @@
       <outfile xil_pn:name="lcd_driver_tb_isim_beh.exe"/>
       <outfile xil_pn:name="xilinxsim.ini"/>
     </transform>
-    <transform xil_pn:end_ts="1464024635" xil_pn:in_ck="-1249634404730829457" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-890565599326071882" xil_pn:start_ts="1464024635">
+    <transform xil_pn:end_ts="1464963542" xil_pn:in_ck="-1249634404730829457" xil_pn:name="TRAN_ISimulateBehavioralModel" xil_pn:prop_ck="-890565599326071882" xil_pn:start_ts="1464963542">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
@@ -129,15 +165,12 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1463426872" xil_pn:in_ck="8811521640337194126" xil_pn:name="TRANEXT_xstsynthesize_spartan3e" xil_pn:prop_ck="2199470219804545175" xil_pn:start_ts="1463426866">
+    <transform xil_pn:end_ts="1464963648" xil_pn:in_ck="8811521640337194126" xil_pn:name="TRANEXT_xstsynthesize_spartan3e" xil_pn:prop_ck="2199470219804545175" xil_pn:start_ts="1464963642">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
-      <status xil_pn:value="InputChanged"/>
       <status xil_pn:value="OutputChanged"/>
-      <status xil_pn:value="OutputRemoved"/>
       <outfile xil_pn:name=".lso"/>
       <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
       <outfile xil_pn:name="lcd_driver.lso"/>
@@ -147,10 +180,75 @@
       <outfile xil_pn:name="lcd_driver.stx"/>
       <outfile xil_pn:name="lcd_driver.syr"/>
       <outfile xil_pn:name="lcd_driver.xst"/>
+      <outfile xil_pn:name="lcd_driver_stx_beh.prj"/>
+      <outfile xil_pn:name="lcd_driver_tb_beh.prj"/>
       <outfile xil_pn:name="lcd_driver_tb_stx_beh.prj"/>
       <outfile xil_pn:name="lcd_driver_xst.xrpt"/>
       <outfile xil_pn:name="webtalk_pn.xml"/>
       <outfile xil_pn:name="xst"/>
+    </transform>
+    <transform xil_pn:end_ts="1464949746" xil_pn:name="TRAN_compileBCD2" xil_pn:prop_ck="3272221434217320822" xil_pn:start_ts="1464949746">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1464963656" xil_pn:in_ck="8811521640337185380" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="-1770289617007127622" xil_pn:start_ts="1464963653">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="_ngo"/>
+      <outfile xil_pn:name="_xmsgs/ngdbuild.xmsgs"/>
+      <outfile xil_pn:name="lcd_driver.bld"/>
+      <outfile xil_pn:name="lcd_driver.ngd"/>
+      <outfile xil_pn:name="lcd_driver_ngdbuild.xrpt"/>
+    </transform>
+    <transform xil_pn:end_ts="1464963661" xil_pn:in_ck="8811521640337185381" xil_pn:name="TRANEXT_map_spartan3" xil_pn:prop_ck="570889668722473129" xil_pn:start_ts="1464963656">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="_xmsgs/map.xmsgs"/>
+      <outfile xil_pn:name="lcd_driver.pcf"/>
+      <outfile xil_pn:name="lcd_driver_map.map"/>
+      <outfile xil_pn:name="lcd_driver_map.mrp"/>
+      <outfile xil_pn:name="lcd_driver_map.ncd"/>
+      <outfile xil_pn:name="lcd_driver_map.ngm"/>
+      <outfile xil_pn:name="lcd_driver_map.xrpt"/>
+      <outfile xil_pn:name="lcd_driver_summary.xml"/>
+      <outfile xil_pn:name="lcd_driver_usage.xml"/>
+    </transform>
+    <transform xil_pn:end_ts="1464963675" xil_pn:in_ck="1632125194089567230" xil_pn:name="TRANEXT_par_spartan3" xil_pn:prop_ck="-988662182046631445" xil_pn:start_ts="1464963661">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="_xmsgs/par.xmsgs"/>
+      <outfile xil_pn:name="lcd_driver.ncd"/>
+      <outfile xil_pn:name="lcd_driver.pad"/>
+      <outfile xil_pn:name="lcd_driver.par"/>
+      <outfile xil_pn:name="lcd_driver.ptwx"/>
+      <outfile xil_pn:name="lcd_driver.unroutes"/>
+      <outfile xil_pn:name="lcd_driver.xpi"/>
+      <outfile xil_pn:name="lcd_driver_pad.csv"/>
+      <outfile xil_pn:name="lcd_driver_pad.txt"/>
+      <outfile xil_pn:name="lcd_driver_par.xrpt"/>
+    </transform>
+    <transform xil_pn:end_ts="1464963684" xil_pn:in_ck="8811521640337185249" xil_pn:name="TRANEXT_bitFile_spartan3a" xil_pn:prop_ck="-426368325978129584" xil_pn:start_ts="1464963679">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="_xmsgs/bitgen.xmsgs"/>
+      <outfile xil_pn:name="lcd_driver.bgn"/>
+      <outfile xil_pn:name="lcd_driver.bit"/>
+      <outfile xil_pn:name="lcd_driver.drc"/>
+      <outfile xil_pn:name="lcd_driver.ut"/>
+      <outfile xil_pn:name="usage_statistics_webtalk.html"/>
+      <outfile xil_pn:name="webtalk.log"/>
+      <outfile xil_pn:name="webtalk_pn.xml"/>
+    </transform>
+    <transform xil_pn:end_ts="1464963692" xil_pn:in_ck="8811521640337172395" xil_pn:name="TRAN_configureTargetDevice" xil_pn:prop_ck="5767926783713760761" xil_pn:start_ts="1464963691">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1464963675" xil_pn:in_ck="8811521640337185249" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416186" xil_pn:start_ts="1464963673">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="_xmsgs/trce.xmsgs"/>
+      <outfile xil_pn:name="lcd_driver.twr"/>
+      <outfile xil_pn:name="lcd_driver.twx"/>
     </transform>
   </transforms>
 
