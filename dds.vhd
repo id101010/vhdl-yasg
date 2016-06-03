@@ -40,14 +40,14 @@ architecture Behavioral of dds is
     signal idx_phase : unsigned(phase_res-1 downto 0) := (others => '0');  
     signal amp_rect, amp_saw, amp_tria, amp_sin : unsigned (adc_res-1 downto 0);
     
-    --type storage is array (((2**phase_res)/4)-1 downto 0) of unsigned (adc_res-2 downto 0);
-	 type storage is array (((2**phase_res))-1 downto 0) of unsigned (adc_res-1 downto 0);
+    type storage is array (((2**phase_res)/4)-1 downto 0) of unsigned (adc_res-2 downto 0);
+	 --type storage is array (((2**phase_res))-1 downto 0) of unsigned (adc_res-1 downto 0);
     function gen_sin_wave return storage is
         variable temp : storage;
         begin
             forLoop: for i in 0 to temp'high loop
-                --temp(i) := to_unsigned(integer(real((2**(adc_res-1))-1)*sin((real(i)*MATH_PI/2.0)/real(temp'high))),adc_res-1);
-					temp(i) := to_unsigned(integer(real(2**(adc_res-1) -1)  + real((2**(adc_res-1))-1)*sin((real(i)*MATH_PI*2.0)/real(temp'high))),adc_res);
+               temp(i) := to_unsigned(integer(real((2**(adc_res-1))-1)*sin((real(i)*MATH_PI/2.0)/real(temp'high))),adc_res-1);
+					--temp(i) := to_unsigned(integer(real(2**(adc_res-1) -1)  + real((2**(adc_res-1))-1)*sin((real(i)*MATH_PI*2.0)/real(temp'high))),adc_res);
             	
 				end loop;
         return temp;
@@ -76,20 +76,19 @@ begin
 	 
 	 
 	 idx_phase <= idx(acc_res -1 downto acc_res - phase_res);
-	 amp_sin <= sin_wave(to_integer(idx_phase));
 	 
-    -- Modulo is only required to prevent a synthesizer warning, but the value is actually never > 2**phase_res/4
-    --amp_sin <=  to_unsigned((2**(adc_res-1)) - 1,adc_res) + sin_wave(to_integer(idx_phase) mod ((2**phase_res)/4)) when idx_phase(phase_res-1 downto phase_res-2)="00" else
-        --        to_unsigned((2**(adc_res-1)) - 1,adc_res) + sin_wave(to_integer(((2**phase_res)/2)-idx_phase) mod ((2**phase_res)/4)) when idx_phase(phase_res-1 downto phase_res-2)="01" else
-         --       to_unsigned((2**(adc_res-1)) - 1,adc_res) - sin_wave(to_integer(idx_phase-((2**phase_res)/2)) mod ((2**phase_res)/4)) when idx_phase(phase_res-1 downto phase_res-2)="10" else
-         --       to_unsigned((2**(adc_res-1)) - 1,adc_res) - sin_wave(to_integer(((2**phase_res)-1)-idx_phase) mod ((2**phase_res)/4));
-
+	 --amp_sin <= sin_wave(to_integer(idx_phase));
+	 amp_sin <=  to_unsigned((2**(adc_res-1)) - 1,adc_res) + sin_wave(to_integer(idx_phase(phase_res-3 downto 0))) when idx_phase(phase_res-1 downto phase_res-2)="00" else
+                to_unsigned((2**(adc_res-1)) - 1,adc_res) + sin_wave(to_integer(((2**(phase_res-2))-1) - idx_phase(phase_res-3 downto 0))) when idx_phase(phase_res-1 downto phase_res-2)="01" else
+                to_unsigned((2**(adc_res-1)) - 1,adc_res) - sin_wave(to_integer(idx_phase(phase_res-3 downto 0))) when idx_phase(phase_res-1 downto phase_res-2)="10" else
+                to_unsigned((2**(adc_res-1)) - 1,adc_res) - sin_wave(to_integer(((2**(phase_res-2))-1) - idx_phase(phase_res-3 downto 0)));
+					 
+					 
     with form select amp <= amp_rect when "00",
                             amp_saw when "01",
                             amp_tria when "10",
                             amp_sin when others;
                             
-            
     P1: process(clk) 
     begin
         if(rising_edge(clk)) then
