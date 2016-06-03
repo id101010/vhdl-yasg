@@ -215,7 +215,8 @@ begin
                 next_lcd_en <= '1';
                 next_lcd_rs <= '0';
                 
-                if(new_character == '1') then -- send data
+                if(new_character = '1') then -- send data
+						  next_lcd_rs <= '1';
                     next_counter <= (others => '0');
                     next_ret_state <= DONE;
                     next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
@@ -257,6 +258,6 @@ begin
     lcd_db <= cur_lcd_db;
     lcd_en <= cur_lcd_en;
     lcd_rs <= cur_lcd_rs;
-    busy <= '0' when cur_state == DONE else '1';
+    busy <= '0' when cur_state = DONE else '1';
 
 end Behavioral;

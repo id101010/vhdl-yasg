@@ -33,12 +33,16 @@
         <signal name="XLXN_78" />
         <signal name="XLXN_79" />
         <signal name="XLXN_70" />
-        <signal name="LCD_E" />
-        <signal name="LCD_RW" />
+        <signal name="LCD_busy">
+        </signal>
         <signal name="LCD_RS" />
         <signal name="LCD_DB(7:0)" />
         <signal name="XLXN_92(7:0)" />
         <signal name="XLXN_93" />
+        <signal name="LCD_RW" />
+        <signal name="XLXN_95" />
+        <signal name="XLXN_96" />
+        <signal name="LCD_E" />
         <port polarity="Input" name="CLK_50MHZ" />
         <port polarity="Output" name="SPI_SCK" />
         <port polarity="Output" name="DAC_CS" />
@@ -54,10 +58,10 @@
         <port polarity="Input" name="ROT_A" />
         <port polarity="Input" name="ROT_B" />
         <port polarity="Input" name="ROT_CENTER" />
-        <port polarity="Output" name="LCD_E" />
-        <port polarity="Output" name="LCD_RW" />
         <port polarity="Output" name="LCD_RS" />
         <port polarity="Output" name="LCD_DB(7:0)" />
+        <port polarity="Output" name="LCD_RW" />
+        <port polarity="Output" name="LCD_E" />
         <blockdef name="spi_driver">
             <timestamp>2016-5-20T8:33:2</timestamp>
             <rect width="256" x="64" y="-192" height="192" />
@@ -130,7 +134,7 @@
             <line x2="384" y1="-32" y2="-32" x1="320" />
         </blockdef>
         <blockdef name="lcd_driver">
-            <timestamp>2016-6-3T14:29:29</timestamp>
+            <timestamp>2016-6-3T16:19:19</timestamp>
             <rect width="304" x="64" y="-384" height="384" />
             <line x2="0" y1="-352" y2="-352" x1="64" />
             <line x2="0" y1="-288" y2="-288" x1="64" />
@@ -212,7 +216,7 @@
             <blockpin signalname="CLK_50MHZ" name="clk" />
             <blockpin signalname="XLXN_68" name="rst" />
             <blockpin signalname="XLXN_79" name="enc_err" />
-            <blockpin name="lcd_busy" />
+            <blockpin signalname="LCD_busy" name="lcd_busy" />
             <blockpin signalname="XLXN_93" name="lcd_newchar" />
             <blockpin signalname="FREQ(16:0)" name="freq_out(16:0)" />
             <blockpin signalname="XLXN_77" name="enc_updown" />
@@ -230,10 +234,13 @@
             <blockpin name="new_pos" />
             <blockpin name="auto_incr_cursor" />
             <blockpin signalname="XLXN_92(7:0)" name="data(7:0)" />
+            <blockpin signalname="LCD_busy" name="busy" />
             <blockpin signalname="LCD_E" name="lcd_en" />
-            <blockpin signalname="LCD_RW" name="lcd_rw" />
             <blockpin signalname="LCD_RS" name="lcd_rs" />
             <blockpin signalname="LCD_DB(7:0)" name="lcd_db(7:0)" />
+        </block>
+        <block symbolname="gnd" name="XLXI_51">
+            <blockpin signalname="LCD_RW" name="G" />
         </block>
     </netlist>
     <sheet sheetnum="1" width="5440" height="3520">
@@ -401,11 +408,14 @@
         <branch name="CLK_50MHZ">
             <wire x2="2032" y1="464" y2="464" x1="2000" />
         </branch>
-        <branch name="LCD_E">
+        <branch name="LCD_busy">
+            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="960" y="352" type="branch" />
+            <wire x2="96" y1="352" y2="1056" x1="96" />
+            <wire x2="1104" y1="1056" y2="1056" x1="96" />
+            <wire x2="960" y1="352" y2="352" x1="96" />
+            <wire x2="2496" y1="352" y2="352" x1="960" />
+            <wire x2="2496" y1="352" y2="464" x1="2496" />
             <wire x2="2496" y1="464" y2="464" x1="2464" />
-        </branch>
-        <branch name="LCD_RW">
-            <wire x2="2496" y1="560" y2="560" x1="2464" />
         </branch>
         <branch name="LCD_RS">
             <wire x2="2496" y1="656" y2="656" x1="2464" />
@@ -416,8 +426,6 @@
         <instance x="2032" y="816" name="XLXI_45" orien="R0">
         </instance>
         <iomarker fontsize="28" x="2000" y="464" name="CLK_50MHZ" orien="R180" />
-        <iomarker fontsize="28" x="2496" y="464" name="LCD_E" orien="R0" />
-        <iomarker fontsize="28" x="2496" y="560" name="LCD_RW" orien="R0" />
         <iomarker fontsize="28" x="2496" y="656" name="LCD_RS" orien="R0" />
         <iomarker fontsize="28" x="2496" y="752" name="LCD_DB(7:0)" orien="R0" />
         <branch name="XLXN_92(7:0)">
@@ -437,5 +445,16 @@
             <wire x2="1648" y1="416" y2="528" x1="1648" />
             <wire x2="2032" y1="528" y2="528" x1="1648" />
         </branch>
+        <instance x="3088" y="640" name="XLXI_51" orien="R0" />
+        <branch name="LCD_RW">
+            <wire x2="3184" y1="448" y2="448" x1="3152" />
+            <wire x2="3152" y1="448" y2="496" x1="3152" />
+            <wire x2="3152" y1="496" y2="512" x1="3152" />
+        </branch>
+        <iomarker fontsize="28" x="3184" y="448" name="LCD_RW" orien="R0" />
+        <branch name="LCD_E">
+            <wire x2="2496" y1="560" y2="560" x1="2464" />
+        </branch>
+        <iomarker fontsize="28" x="2496" y="560" name="LCD_E" orien="R0" />
     </sheet>
 </drawing>
