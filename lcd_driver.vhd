@@ -25,8 +25,6 @@
 --
 -- Dependencies: 
 --
--- Revision: 
--- Revision 0.01 - File Created
 -- Additional Comments: 
 --
 ----------------------------------------------------------------------------------
@@ -50,60 +48,56 @@ entity lcd_driver is
                 wait_between    : natural := 37;        -- wait 37us
                 wait_pause      : natural := 1520);     -- wait 1.52ms
                 
-    Port (  clk : in STD_LOGIC; -- Systemclock (50MHz)
-            reset : in STD_LOGIC; -- Initialize display controller
-            data : in  STD_LOGIC_VECTOR (7 downto 0); -- either one ascii char (8bit) or new cursor position (0-31)
-            new_character : in  STD_LOGIC; -- a new character is available on the data bus
-            new_pos : in  STD_LOGIC; -- a new cursor position is available on the data bus
-            auto_incr_cursor : in  STD_LOGIC; -- the cursor should automatically be incremented after writing a new character
-            lcd_db : out  STD_LOGIC_VECTOR (7 downto 0); -- lcd databus
-            lcd_en : out  STD_LOGIC; -- lcd enable
-            lcd_rw : out  STD_LOGIC; -- lcd read/write
-            lcd_rs : out  STD_LOGIC); -- lcd register select
+    Port (  clk : in STD_LOGIC;                         -- Systemclock (50MHz)
+            reset : in STD_LOGIC;                       -- Initialize display controller
+            data : in  STD_LOGIC_VECTOR (7 downto 0);   -- either one ascii char (8bit) or new cursor position (0-31)
+            new_character : in  STD_LOGIC;              -- a new character is available on the data bus
+            new_pos : in  STD_LOGIC;                    -- a new cursor position is available on the data bus
+            auto_incr_cursor : in  STD_LOGIC;           -- the cursor should automatically be incremented after writing a new character
+            busy : out STD_LOGIC;                       -- 1 when sending stuff
+            lcd_db : out STD_LOGIC_VECTOR (7 downto 0); -- lcd databus
+            lcd_en : out STD_LOGIC;                     -- lcd enable
+            lcd_rs : out STD_LOGIC);                    -- lcd register select
 end lcd_driver;
 
 architecture Behavioral of lcd_driver is
 
     -- type definitions
     type display_state is (
-        INIT, -- initialization, wait for 40ms to pass
-        SEND_FS1, -- send the function set
-        SEND_FS2, -- send the function set
-        SEND_SD, -- send the display ON/OFF control
-        SEND_CD, -- send a clear
-        SEND_ES, -- send entry mode set
-        WAITING1, -- wait and toggle lcd_en
-        WAITING2, -- wait and toggle lcd_en
-        WAITING3, -- wait and toggle lcd_en
-        DONE); -- initialization done
+        INIT,       -- initialization, wait for 40ms to pass
+        SEND_FS1,   -- send the function set
+        SEND_FS2,   -- send the function set
+        SEND_SD,    -- send the display ON/OFF control
+        SEND_CD,    -- send a clear
+        SEND_ES,    -- send entry mode set
+        WAITING1,   -- wait and toggle lcd_en
+        WAITING2,   -- wait and toggle lcd_en
+        WAITING3,   -- wait and toggle lcd_en
+        DONE);      -- initialization done
         
     -- signals
-    signal init_done : STD_LOGIC := '0'; -- 1 when initialization done, else 0
+    signal cur_state : display_state := INIT;       -- cur_state register
+    signal next_state : display_state := INIT;      -- next_state register
+    signal ret_state : display_state := INIT;       -- ret_state register
+    signal next_ret_state : display_state := INIT;  -- next_ret_state register
     
-    signal cur_state : display_state := INIT; -- cur_state register
-    signal next_state : display_state := INIT; -- next_state register
-    signal ret_state : display_state := INIT; -- ret_state register
-    signal next_ret_state : display_state := INIT; -- next_ret_state register
-    
-    signal cur_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- n bit counter signal
-    signal next_counter : unsigned(NBITS-1 downto 0) := (others => '0');
-    signal ret_counter : unsigned(NBITS-1 downto 0) := (others => '0'); -- n bit counter signal
+    signal cur_counter : unsigned(NBITS-1 downto 0) := (others => '0');     -- current counter
+    signal next_counter : unsigned(NBITS-1 downto 0) := (others => '0');    -- next current counter
+    signal ret_counter : unsigned(NBITS-1 downto 0) := (others => '0');     -- return current counter
     signal next_ret_counter : unsigned(NBITS-1 downto 0) := (others => '0'); 
     
-    signal next_lcd_db : STD_LOGIC_VECTOR(7 downto 0) := (others => '0'); -- next lcd databus
-    signal next_lcd_en : STD_LOGIC := '0'; -- next lcd enable
-    signal next_lcd_rw : STD_LOGIC := '0'; -- next lcd read/write
-    signal next_lcd_rs : STD_LOGIC := '0'; -- next lcd register select
+    signal next_lcd_db : STD_LOGIC_VECTOR(7 downto 0) := (others => '0');   -- next lcd databus
+    signal next_lcd_en : STD_LOGIC := '0';  -- next lcd enable
+    signal next_lcd_rs : STD_LOGIC := '0';  -- next lcd register select
     
-    signal cur_lcd_db : STD_LOGIC_VECTOR(7 downto 0) := (others => '0'); -- next lcd databus
-    signal cur_lcd_en : STD_LOGIC := '0'; -- next lcd enable
-    signal cur_lcd_rw : STD_LOGIC := '0'; -- next lcd read/write
-    signal cur_lcd_rs : STD_LOGIC := '0'; -- next lcd register select
+    signal cur_lcd_db : STD_LOGIC_VECTOR(7 downto 0) := (others => '0');    -- next lcd databus
+    signal cur_lcd_en : STD_LOGIC := '0';   -- next lcd enable
+    signal cur_lcd_rs : STD_LOGIC := '0';   -- next lcd register select
     
     -- constants
-    constant  INIT_COUNT : natural := clk_freq / (1000000 / wait_init); -- number of clock cycles for 40ms
-    constant  PAUSE_COUNT : natural := clk_freq / (1000000 / wait_between); -- number of clock cycles for 37us
-    constant  CLEAR_DISPLAY_COUNT : natural := clk_freq / (1000000 / wait_pause); -- number of clock cycles for 1.52ms
+    constant INIT_COUNT : natural := clk_freq / (1000000 / wait_init);             -- number of clock cycles for 40ms
+    constant PAUSE_COUNT : natural := clk_freq / (1000000 / wait_between);         -- number of clock cycles for 37us
+    constant CLEAR_DISPLAY_COUNT : natural := clk_freq / (1000000 / wait_pause);   -- number of clock cycles for 1.52ms
 
 begin
 
@@ -120,7 +114,6 @@ begin
             ret_counter <= (others => '0');
             cur_lcd_db <= (others => '0');
             cur_lcd_en <= '0';
-            cur_lcd_rw <= '0';
             cur_lcd_rs <= '0';
         elsif rising_edge(clk) then -- synchronous on clk
             cur_state <= next_state;
@@ -129,7 +122,6 @@ begin
             ret_counter <= next_ret_counter;
             cur_lcd_db <= next_lcd_db;
             cur_lcd_en <= next_lcd_en;
-            cur_lcd_rw <= next_lcd_rw;
             cur_lcd_rs <= next_lcd_rs;
         end if;
     end process REGS;
@@ -138,24 +130,23 @@ begin
     -- type    : sequential
     -- inputs  : clk, cur_state
     -- outputs : none
-    NSL: process(clk, cur_state, cur_counter, cur_lcd_db, cur_lcd_en, cur_lcd_rw, cur_lcd_rs, ret_state, ret_counter) is
+    NSL: process(clk, cur_state, cur_counter, cur_lcd_db, cur_lcd_en, cur_lcd_rs, ret_state, ret_counter) is
     begin
     
-        next_state <= cur_state; -- state stays the same
         next_counter <= cur_counter + 1; -- increment counter
+        
+        next_state <= cur_state;
         next_lcd_db <= cur_lcd_db;
         next_lcd_en <= cur_lcd_en;
-        next_lcd_rw <= cur_lcd_rw;
         next_lcd_rs <= cur_lcd_rs;
         next_ret_state <= ret_state;
         next_ret_counter <= ret_counter;
         
-        case cur_state is -- switch on current state
-            when INIT =>
+        case cur_state is
+            when INIT => -- switch on current state
             
                 next_lcd_db <= "00000000";
                 next_lcd_en <= '0';
-                next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
@@ -163,11 +154,10 @@ begin
                 next_ret_counter <= to_unsigned(INIT_COUNT, NBITS);
                 next_state <= WAITING2;
                 
-            when SEND_FS1 => 
+            when SEND_FS1 => -- first function set
             
                 next_lcd_db <= "00111000";
                 next_lcd_en <= '1';
-                next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
@@ -175,11 +165,10 @@ begin
                 next_ret_counter <= to_unsigned(PAUSE_COUNT, NBITS);
                 next_state <= WAITING1;
                 
-            when SEND_FS2 =>
+            when SEND_FS2 => -- second function set
             
                 next_lcd_db <= "00111000";
                 next_lcd_en <= '1';
-                next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
@@ -187,11 +176,10 @@ begin
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= WAITING1;
                 
-            when SEND_SD =>
+            when SEND_SD => -- display ON/OFF setting
             
                 next_lcd_db <= "00001111";
                 next_lcd_en <= '1';
-                next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
@@ -199,11 +187,10 @@ begin
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= WAITING1;
 
-            when SEND_CD => 
+            when SEND_CD => -- clear display
 
                 next_lcd_db <= "00000001";
                 next_lcd_en <= '1';
-                next_lcd_rw <= '0';
                 next_lcd_rs <= '0';   
                 
                 next_counter <= (others => '0');
@@ -211,11 +198,10 @@ begin
                 next_ret_counter <= to_unsigned(CLEAR_DISPLAY_COUNT,NBITS);
                 next_state <= WAITING3;
 
-            when SEND_ES =>
+            when SEND_ES => -- entry set mode
                 
                 next_lcd_db <= "00000110";
                 next_lcd_en <= '1';
-                next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
                 
                 next_counter <= (others => '0');
@@ -223,15 +209,21 @@ begin
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= WAITING1;
                 
-            when DONE =>
+            when DONE => -- initialization done
             
                 next_lcd_db <= "00000000";
                 next_lcd_en <= '1';
-                next_lcd_rw <= '0';
                 next_lcd_rs <= '0';
-                init_done <= '1';
+                
+                if(new_character == '1') then -- send data
+                    next_counter <= (others => '0');
+                    next_ret_state <= DONE;
+                    next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
+                    next_state <= WAITING1;
+                    next_lcd_db <= data;
+                end if;
 
-            when WAITING1 =>
+            when WAITING1 => -- wait with jump
 
                 if(cur_counter >= ret_counter) then
                     next_state <= WAITING2;
@@ -241,7 +233,7 @@ begin
                 
                 next_lcd_en <= '1'; 
                 
-            when WAITING2 =>
+            when WAITING2 => -- wait without jump
 
                 if(cur_counter >= ret_counter) then
                     next_state <= ret_state;
@@ -249,7 +241,7 @@ begin
                 
                 next_lcd_en <= '0'; 
                 
-            when WAITING3 =>
+            when WAITING3 => -- wait with counter reset
                 
                 if(cur_counter >= PAUSE_COUNT) then
                     next_state <= WAITING2;
@@ -264,8 +256,7 @@ begin
     -- Output logic
     lcd_db <= cur_lcd_db;
     lcd_en <= cur_lcd_en;
-    lcd_rw <= cur_lcd_rw;
     lcd_rs <= cur_lcd_rs;
+    busy <= '0' when cur_state == DONE else '1';
 
 end Behavioral;
-
