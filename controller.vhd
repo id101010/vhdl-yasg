@@ -36,49 +36,75 @@ entity controller is
            enc_ce : in  STD_LOGIC;
 			  enc_btn: in STD_LOGIC;
            enc_err : in  STD_LOGIC;
+			  lcd_busy: in STD_LOGIC;
+			  lcd_data: out unsigned(7 downto 0);
+			  lcd_newchar: out STD_LOGIC;
            freq_out : out  unsigned (16 downto 0));
 end controller;
 
 architecture Behavioral of controller is
-	signal freq_reg, freq_next : unsigned(16 downto 0)  := to_unsigned(1000,17);
-   signal digpos_reg, digpos_next : unsigned(2 downto 0)  := to_unsigned(0,3);
+	--digitnr which is currently edited 0-4
+	signal digpos_reg, digpos_next : unsigned(2 downto 0)  := (others => '0');
+	-- for edge detection on btn
 	signal btn_old_reg, btn_old_next : std_logic := '0';
+	
+	-- array 5x 4bit(0-9)
+	type storage_digit is array (4 downto 0) of unsigned (3 downto 0);
+	signal digit_reg, digit_next : storage_digit := (others => (others => '0'));
 
-	type storage is array (4 downto 0) of unsigned (16 downto 0);
-	constant bases : storage := (to_unsigned(1,17),to_unsigned(10,17),
-											to_unsigned(100,17),to_unsigned(1000,17),
-											to_unsigned(10000,17));
-											
-	signal digpos_base : unsigned(16 downto 0);
+	signal charcnt_reg, charcnt_next : unsigned(15 downto 0) := (others => '0');
+	signal lcd_newchar_reg,lcd_newchar_next : std_logic := '0';
+	signal lcd_data_reg, lcd_data_next: unsigned(7 downto 0) :=(others => '0');
+
 begin
 
 	proc1: process(clk,rst) 
 	begin
 		if(rst='1') then
-			freq_reg <= to_unsigned(1000,17);
-			digpos_reg <= to_unsigned(0,3);
+			digpos_reg <= (others => '0');
+			digit_reg <=  (others => (others => '0'));
 			btn_old_reg <= '0';
+			
+			charcnt_reg <= (others => '0');
+			lcd_newchar_reg <= '0';
+			lcd_data_reg <= (others => '0');
+		
 		elsif(rising_edge(clk)) then
-			freq_reg <= freq_next;
 			digpos_reg <= digpos_next;
+			digit_reg <= digit_next;
 			btn_old_reg <= btn_old_next;
+			
+			charcnt_reg <= charcnt_next;
+			lcd_newchar_reg<= lcd_newchar_next;
+			lcd_data_reg <= lcd_data_next;
+			
 		end if;
 	end process proc1;
 	
-	freq_out <= freq_reg;
-	digpos_base <= bases(to_integer(digpos_reg));
+   freq_out <= resize(digit_reg(0),17) 
+			   + resize(digit_reg(1) * 10 ,17)
+				+ resize(digit_reg(2) * 100 ,17)
+		    	+ resize(digit_reg(3) * 1000,17)
+				+ resize(digit_reg(4) * 10000,17);
 	
-	proc2: process(freq_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,digpos_base,btn_old_reg) 
+	lcd_data <= lcd_data_reg;
+	lcd_newchar <= lcd_newchar_reg;
+	
+	proc2: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, lcd_newchar_reg) 
 	begin
-		freq_next <= freq_reg;
+		digit_next <= digit_reg;
 		digpos_next <= digpos_reg;
 		btn_old_next <= enc_btn;
 		
+		charcnt_next <= charcnt_reg;
+		lcd_newchar_next <= '0';
+		lcd_data_next <= lcd_data_reg;
+		
 		if(enc_ce='1' and enc_err='0') then
 			if(enc_updown='1') then
-				freq_next <= freq_reg + digpos_base;
+				digit_next(to_integer(digpos_reg)) <= digit_reg(to_integer(digpos_reg)) + 1;
 			else
-				freq_next <= freq_reg - digpos_base;
+				digit_next(to_integer(digpos_reg)) <= digit_reg(to_integer(digpos_reg)) -1;
 			end if;
 		elsif(enc_btn ='1' and btn_old_reg='0') then
 			if(digpos_reg = to_unsigned(4,3)) then
@@ -86,6 +112,12 @@ begin
 			else
 				digpos_next <= digpos_reg + 1;
 			end if;
+		end if;
+		
+		if(lcd_busy = '0' and charcnt_reg < 10) then
+				lcd_data_next <= to_unsigned(65,8);
+				lcd_newchar_next <= '1';
+				charcnt_next <= charcnt_reg + 1;
 		end if;
 	
 	end process proc2;
