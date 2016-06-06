@@ -6,7 +6,6 @@
         <trait edittrait="all:0" />
     </attr>
     <netlist>
-        <signal name="XLXN_131" />
         <signal name="FORM(1:0)" />
         <signal name="FORM(0)" />
         <signal name="FORM(1)" />
@@ -33,15 +32,15 @@
         <signal name="XLXN_79" />
         <signal name="LCD_busy" />
         <signal name="LCD_RS" />
-        <signal name="XLXN_170" />
         <signal name="XLXN_70" />
         <signal name="LCD_E" />
         <signal name="XLXN_176" />
-        <signal name="XLXN_177(7:0)" />
         <signal name="LCD_DB(7:0)" />
         <signal name="LCD_RW" />
         <signal name="XLXN_30" />
         <signal name="DAC_CLR" />
+        <signal name="XLXN_179" />
+        <signal name="XLXN_180(7:0)" />
         <port polarity="Input" name="CLK_50MHZ" />
         <port polarity="Output" name="SPI_SCK" />
         <port polarity="Output" name="DAC_CS" />
@@ -107,20 +106,21 @@
             <line x2="32" y1="-64" y2="-64" x1="96" />
         </blockdef>
         <blockdef name="controller">
-            <timestamp>2016-6-3T16:4:48</timestamp>
+            <timestamp>2016-6-6T19:48:13</timestamp>
             <rect width="304" x="64" y="-448" height="448" />
             <line x2="0" y1="-416" y2="-416" x1="64" />
             <line x2="0" y1="-352" y2="-352" x1="64" />
             <line x2="0" y1="-96" y2="-96" x1="64" />
             <line x2="0" y1="-32" y2="-32" x1="64" />
             <line x2="432" y1="-416" y2="-416" x1="368" />
-            <rect width="64" x="368" y="-44" height="24" />
-            <line x2="432" y1="-32" y2="-32" x1="368" />
-            <line x2="0" y1="-224" y2="-224" x1="64" />
-            <line x2="0" y1="-160" y2="-160" x1="64" />
             <line x2="0" y1="-288" y2="-288" x1="64" />
-            <rect width="64" x="368" y="-364" height="24" />
             <line x2="432" y1="-352" y2="-352" x1="368" />
+            <rect width="64" x="368" y="-300" height="24" />
+            <line x2="432" y1="-288" y2="-288" x1="368" />
+            <rect width="64" x="368" y="-236" height="24" />
+            <line x2="432" y1="-224" y2="-224" x1="368" />
+            <line x2="0" y1="-160" y2="-160" x1="64" />
+            <line x2="0" y1="-224" y2="-224" x1="64" />
         </blockdef>
         <blockdef name="rotary_dec">
             <timestamp>2016-5-23T16:56:27</timestamp>
@@ -201,11 +201,12 @@
             <blockpin signalname="XLXN_79" name="enc_err" />
             <blockpin signalname="LCD_busy" name="lcd_busy" />
             <blockpin signalname="XLXN_176" name="lcd_newchar" />
-            <blockpin signalname="FREQ(16:0)" name="freq_out(16:0)" />
-            <blockpin signalname="XLXN_77" name="enc_updown" />
-            <blockpin signalname="XLXN_78" name="enc_ce" />
             <blockpin signalname="ROT_CENTER" name="enc_btn" />
-            <blockpin signalname="XLXN_177(7:0)" name="lcd_data(7:0)" />
+            <blockpin signalname="XLXN_179" name="lcd_newpos" />
+            <blockpin signalname="XLXN_180(7:0)" name="lcd_data(7:0)" />
+            <blockpin signalname="FREQ(16:0)" name="freq_out(16:0)" />
+            <blockpin signalname="XLXN_78" name="enc_ce" />
+            <blockpin signalname="XLXN_77" name="enc_updown" />
         </block>
         <block symbolname="rotary_dec" name="XLXI_43">
             <blockpin signalname="CLK_50MHZ" name="clk" />
@@ -222,8 +223,8 @@
             <blockpin signalname="CLK_50MHZ" name="clk" />
             <blockpin signalname="XLXN_70" name="reset" />
             <blockpin signalname="XLXN_176" name="new_character" />
-            <blockpin name="new_pos" />
-            <blockpin signalname="XLXN_177(7:0)" name="data(7:0)" />
+            <blockpin signalname="XLXN_179" name="new_pos" />
+            <blockpin signalname="XLXN_180(7:0)" name="data(7:0)" />
             <blockpin signalname="LCD_busy" name="busy" />
             <blockpin signalname="LCD_E" name="lcd_en" />
             <blockpin signalname="LCD_RS" name="lcd_rs" />
@@ -298,11 +299,10 @@
             <wire x2="4304" y1="1984" y2="1984" x1="3952" />
         </branch>
         <branch name="FREQ(16:0)">
-            <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="2763" y="2096" type="branch" />
-            <wire x2="2592" y1="1728" y2="1728" x1="2224" />
-            <wire x2="2592" y1="1728" y2="2096" x1="2592" />
-            <wire x2="2763" y1="2096" y2="2096" x1="2592" />
-            <wire x2="2944" y1="2096" y2="2096" x1="2763" />
+            <attrtext style="alignment:SOFT-LEFT;fontsize:28;fontname:Arial" attrname="Name" x="2763" y="2096" type="branch" />
+            <wire x2="2592" y1="1536" y2="1536" x1="2224" />
+            <wire x2="2592" y1="1536" y2="2096" x1="2592" />
+            <wire x2="2944" y1="2096" y2="2096" x1="2592" />
         </branch>
         <instance x="4080" y="1840" name="XLXI_14" orien="R0" />
         <branch name="J18_IO4">
@@ -428,12 +428,6 @@
             <wire x2="2480" y1="1296" y2="1344" x1="2480" />
             <wire x2="2736" y1="1296" y2="1296" x1="2480" />
         </branch>
-        <branch name="XLXN_177(7:0)">
-            <wire x2="2240" y1="1408" y2="1408" x1="2224" />
-            <wire x2="2480" y1="1408" y2="1408" x1="2240" />
-            <wire x2="2480" y1="1408" y2="1424" x1="2480" />
-            <wire x2="2736" y1="1424" y2="1424" x1="2480" />
-        </branch>
         <branch name="LCD_DB(7:0)">
             <wire x2="3168" y1="1408" y2="1408" x1="3152" />
             <wire x2="3232" y1="1408" y2="1408" x1="3168" />
@@ -461,5 +455,15 @@
         </branch>
         <instance x="3856" y="2192" name="XLXI_20" orien="R0" />
         <iomarker fontsize="28" x="4208" y="2192" name="DAC_CLR" orien="R0" />
+        <branch name="XLXN_179">
+            <wire x2="2480" y1="1408" y2="1408" x1="2224" />
+            <wire x2="2480" y1="1360" y2="1408" x1="2480" />
+            <wire x2="2736" y1="1360" y2="1360" x1="2480" />
+        </branch>
+        <branch name="XLXN_180(7:0)">
+            <wire x2="2480" y1="1472" y2="1472" x1="2224" />
+            <wire x2="2480" y1="1424" y2="1472" x1="2480" />
+            <wire x2="2736" y1="1424" y2="1424" x1="2480" />
+        </branch>
     </sheet>
 </drawing>

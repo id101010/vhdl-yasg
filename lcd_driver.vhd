@@ -130,7 +130,7 @@ begin
     -- type    : sequential
     -- inputs  : clk, cur_state
     -- outputs : none
-    NSL: process(clk, cur_state, cur_counter, cur_lcd_db, cur_lcd_en, cur_lcd_rs, ret_state, ret_counter, new_character,data) is
+    NSL: process(clk, cur_state, cur_counter, cur_lcd_db, cur_lcd_en, cur_lcd_rs, ret_state, ret_counter, new_character,data,new_pos) is
     begin
     
         next_counter <= cur_counter + 1; -- increment counter

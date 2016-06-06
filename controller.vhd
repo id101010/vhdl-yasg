@@ -39,6 +39,7 @@ entity controller is
 			  lcd_busy: in STD_LOGIC;
 			  lcd_data: out unsigned(7 downto 0);
 			  lcd_newchar: out STD_LOGIC;
+			  lcd_newpos : out STD_LOGIC;
            freq_out : out  unsigned (16 downto 0));
 end controller;
 
@@ -54,6 +55,7 @@ architecture Behavioral of controller is
 
 	signal charcnt_reg, charcnt_next : unsigned(3 downto 0) := (others => '0');
 	signal lcd_newchar_reg,lcd_newchar_next : std_logic := '0';
+	signal lcd_newpos_reg,lcd_newpos_next : std_logic := '0';
 	signal lcd_data_reg, lcd_data_next: unsigned(7 downto 0) :=(others => '0');
 	
 	type character_array is array (0 to 15) of character;
@@ -76,6 +78,7 @@ begin
 			
 			charcnt_reg <= (others => '0');
 			lcd_newchar_reg <= '0';
+			lcd_newpos_reg <= '0';
 			lcd_data_reg <= (others => '0');
 			busy_old_reg <= '0';
 			freq_out_reg <=(others => '0');
@@ -87,6 +90,7 @@ begin
 			
 			charcnt_reg <= charcnt_next;
 			lcd_newchar_reg<= lcd_newchar_next;
+			lcd_newpos_reg<= lcd_newpos_next;
 			lcd_data_reg <= lcd_data_next;
 			busy_old_reg <= busy_old_next;
 			freq_out_reg <= freq_out_next;
@@ -99,8 +103,9 @@ begin
 	freq_out <= freq_out_reg;
 	lcd_data <= lcd_data_reg;
 	lcd_newchar <= lcd_newchar_reg;
+	lcd_newpos <= lcd_newpos_reg;
 	
-	proc2: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, lcd_newchar_reg, busy_old_reg) 
+	proc2: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, busy_old_reg) 
 	begin
 		digit_next <= digit_reg;
 		digpos_next <= digpos_reg;
@@ -108,6 +113,7 @@ begin
 		
 		charcnt_next <= charcnt_reg;
 		lcd_newchar_next <= '0';
+		lcd_newpos_next <= '0';
 		lcd_data_next <= lcd_data_reg;
 		busy_old_next <= lcd_busy;
 		
