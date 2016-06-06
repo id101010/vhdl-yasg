@@ -53,7 +53,6 @@ entity lcd_driver is
             data : in  STD_LOGIC_VECTOR (7 downto 0);   -- either one ascii char (8bit) or new cursor position (0-31)
             new_character : in  STD_LOGIC;              -- a new character is available on the data bus
             new_pos : in  STD_LOGIC;                    -- a new cursor position is available on the data bus
-            auto_incr_cursor : in  STD_LOGIC;           -- the cursor should automatically be incremented after writing a new character
             busy : out STD_LOGIC;                       -- 1 when sending stuff
             lcd_db : out STD_LOGIC_VECTOR (7 downto 0); -- lcd databus
             lcd_en : out STD_LOGIC;                     -- lcd enable
@@ -64,16 +63,17 @@ architecture Behavioral of lcd_driver is
 
     -- type definitions
     type display_state is (
-        INIT,       -- initialization, wait for 40ms to pass
-        SEND_FS1,   -- send the function set
-        SEND_FS2,   -- send the function set
-        SEND_SD,    -- send the display ON/OFF control
-        SEND_CD,    -- send a clear
-        SEND_ES,    -- send entry mode set
-        WAITING1,   -- wait and toggle lcd_en
-        WAITING2,   -- wait and toggle lcd_en
-        WAITING3,   -- wait and toggle lcd_en
-        DONE);      -- initialization done
+        INIT,        -- initialization, wait for 40ms to pass
+        SEND_FS1,    -- send the function set
+        SEND_FS2,    -- send the function set
+        SEND_SD,     -- send the display ON/OFF control
+        SEND_CD,     -- send a clear
+        SEND_ES,     -- send entry mode set
+        SEND_ADRESS, -- send a new adress
+        WAITING1,    -- wait and toggle lcd_en
+        WAITING2,    -- wait and toggle lcd_en
+        WAITING3,    -- wait and toggle lcd_en
+        DONE);       -- initialization done
         
     -- signals
     signal cur_state : display_state := INIT;       -- cur_state register
@@ -208,6 +208,17 @@ begin
                 next_ret_state <= DONE;
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= WAITING1;
+            
+            when SEND_ADRESS => -- entry set mode
+                
+                next_lcd_db <= '1' & data(6 downto 0);
+                next_lcd_en <= '1';
+                next_lcd_rs <= '0';
+                
+                next_counter <= (others => '0');
+                next_ret_state <= DONE;
+                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
+                next_state <= WAITING1;    
                 
             when DONE => -- initialization done
             
@@ -216,12 +227,19 @@ begin
                 next_lcd_rs <= '0';
                 
                 if(new_character = '1') then -- send data
-						  next_lcd_rs <= '1';
+                    next_lcd_rs <= '1';
                     next_counter <= (others => '0');
                     next_ret_state <= DONE;
                     next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                     next_state <= WAITING1;
-                    next_lcd_db <= data;
+                    next_lcd_db <= data; 
+                elsif(new_pos = '1') then -- new address
+                    next_lcd_rs <= '0';
+                    next_counter <= (others => '0');
+                    next_ret_state <= SEND_ADRESS;
+                    next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
+                    next_state <= WAITING1;
+                    next_lcd_db <= "000001" & data(7) & '0';
                 end if;
 
             when WAITING1 => -- wait with jump
