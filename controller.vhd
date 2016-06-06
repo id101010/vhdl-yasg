@@ -49,10 +49,10 @@ architecture Behavioral of controller is
 	signal btn_old_reg, btn_old_next : std_logic := '0';
 	
 	-- array 5x 4bit(0-9)
-	type storage_digit is array (4 downto 0) of unsigned (3 downto 0);
+	type storage_digit is array (0 to 7) of unsigned (3 downto 0);
 	signal digit_reg, digit_next : storage_digit := (others => (others => '0'));
 
-	signal charcnt_reg, charcnt_next : unsigned(15 downto 0) := (others => '0');
+	signal charcnt_reg, charcnt_next : unsigned(3 downto 0) := (others => '0');
 	signal lcd_newchar_reg,lcd_newchar_next : std_logic := '0';
 	signal lcd_data_reg, lcd_data_next: unsigned(7 downto 0) :=(others => '0');
 	
@@ -61,6 +61,8 @@ architecture Behavioral of controller is
 	
 	-- for edge detection on lcd_busy
 	signal busy_old_reg, busy_old_next : std_logic := '0';
+	
+	signal freq_out_reg, freq_out_next : unsigned (16 downto 0) := (others => '0');
 
 
 begin
@@ -76,6 +78,7 @@ begin
 			lcd_newchar_reg <= '0';
 			lcd_data_reg <= (others => '0');
 			busy_old_reg <= '0';
+			freq_out_reg <=(others => '0');
 		
 		elsif(rising_edge(clk)) then
 			digpos_reg <= digpos_next;
@@ -86,26 +89,14 @@ begin
 			lcd_newchar_reg<= lcd_newchar_next;
 			lcd_data_reg <= lcd_data_next;
 			busy_old_reg <= busy_old_next;
+			freq_out_reg <= freq_out_next;
 			
 		end if;
 	end process proc1;
 	
---   freq_out <= resize(digit_reg(0),17) 
---			   + resize(digit_reg(1) * 10 ,17)
---				+ resize(digit_reg(2) * 100 ,17)
---		    	+ resize(digit_reg(3) * 1000,17)
---				+ resize(digit_reg(4) * 10000,17);
-				
-	freq_out <= digit_reg(0)
-								+  resize((digit_reg(1) 
-											  + resize((digit_reg(2) 
-															+ resize((digit_reg(3) 
-																		 + resize(digit_reg(4) * 10,7)
-																		) * 10,10)
-															)* 10 ,14)
-											 )* 10 ,17);
+ 
 	
-	
+	freq_out <= freq_out_reg;
 	lcd_data <= lcd_data_reg;
 	lcd_newchar <= lcd_newchar_reg;
 	
@@ -119,6 +110,16 @@ begin
 		lcd_newchar_next <= '0';
 		lcd_data_next <= lcd_data_reg;
 		busy_old_next <= lcd_busy;
+		
+		-- The next statement produces two warnings which can be safely ignored:
+		-- xst:643 - The result of a <...>-bit multiplication is partially used...
+		freq_out_next <= resize(
+				  resize(digit_reg(0), 4) 
+			   + resize(digit_reg(1) ,4)* 10
+				+ resize(digit_reg(2) ,7)* 100
+		    	+ resize(digit_reg(3) ,10) * 1000
+				+ resize(digit_reg(4) ,14) * 10000
+				, 17);
 		
 		if(enc_ce='1' and enc_err='0') then
 			if(enc_updown='1') then
@@ -134,7 +135,7 @@ begin
 			end if;
 		end if;
 		
-		if(lcd_busy = '0' and busy_old_reg ='1' and charcnt_reg < 16) then
+		if(lcd_busy = '0' and busy_old_reg ='1' and charcnt_reg < 15) then
 				lcd_data_next <= to_unsigned(character'pos(line1(to_integer(charcnt_reg))),8);
 				lcd_newchar_next <= '1';
 				charcnt_next <= charcnt_reg + 1;
