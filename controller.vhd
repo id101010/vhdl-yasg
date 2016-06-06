@@ -56,8 +56,12 @@ architecture Behavioral of controller is
 	signal lcd_newchar_reg,lcd_newchar_next : std_logic := '0';
 	signal lcd_data_reg, lcd_data_next: unsigned(7 downto 0) :=(others => '0');
 	
-	type character_array is array (15 downto 0) of character;
-	constant line1 : character_array := ( 'h', 'e', 'l','l','o', others=> ' ' );
+	type character_array is array (0 to 15) of character;
+	constant line1 : character_array := ( 'h', 'e', 'l','l','o',' ', 'A', 'a', 'r', 'o', 'n', others=> ' ' );
+	
+	-- for edge detection on lcd_busy
+	signal busy_old_reg, busy_old_next : std_logic := '0';
+
 
 begin
 
@@ -71,6 +75,7 @@ begin
 			charcnt_reg <= (others => '0');
 			lcd_newchar_reg <= '0';
 			lcd_data_reg <= (others => '0');
+			busy_old_reg <= '0';
 		
 		elsif(rising_edge(clk)) then
 			digpos_reg <= digpos_next;
@@ -80,6 +85,7 @@ begin
 			charcnt_reg <= charcnt_next;
 			lcd_newchar_reg<= lcd_newchar_next;
 			lcd_data_reg <= lcd_data_next;
+			busy_old_reg <= busy_old_next;
 			
 		end if;
 	end process proc1;
@@ -103,7 +109,7 @@ begin
 	lcd_data <= lcd_data_reg;
 	lcd_newchar <= lcd_newchar_reg;
 	
-	proc2: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, lcd_newchar_reg) 
+	proc2: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, lcd_newchar_reg, busy_old_reg) 
 	begin
 		digit_next <= digit_reg;
 		digpos_next <= digpos_reg;
@@ -112,6 +118,7 @@ begin
 		charcnt_next <= charcnt_reg;
 		lcd_newchar_next <= '0';
 		lcd_data_next <= lcd_data_reg;
+		busy_old_next <= lcd_busy;
 		
 		if(enc_ce='1' and enc_err='0') then
 			if(enc_updown='1') then
@@ -127,7 +134,7 @@ begin
 			end if;
 		end if;
 		
-		if(lcd_busy = '0' and charcnt_reg < 10) then
+		if(lcd_busy = '0' and busy_old_reg ='1' and charcnt_reg < 16) then
 				lcd_data_next <= to_unsigned(character'pos(line1(to_integer(charcnt_reg))),8);
 				lcd_newchar_next <= '1';
 				charcnt_next <= charcnt_reg + 1;
