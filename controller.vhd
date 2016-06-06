@@ -55,6 +55,9 @@ architecture Behavioral of controller is
 	signal charcnt_reg, charcnt_next : unsigned(15 downto 0) := (others => '0');
 	signal lcd_newchar_reg,lcd_newchar_next : std_logic := '0';
 	signal lcd_data_reg, lcd_data_next: unsigned(7 downto 0) :=(others => '0');
+	
+	type character_array is array (15 downto 0) of character;
+	constant line1 : character_array := ( 'h', 'e', 'l','l','o', others=> ' ' );
 
 begin
 
@@ -81,11 +84,21 @@ begin
 		end if;
 	end process proc1;
 	
-   freq_out <= resize(digit_reg(0),17) 
-			   + resize(digit_reg(1) * 10 ,17)
-				+ resize(digit_reg(2) * 100 ,17)
-		    	+ resize(digit_reg(3) * 1000,17)
-				+ resize(digit_reg(4) * 10000,17);
+--   freq_out <= resize(digit_reg(0),17) 
+--			   + resize(digit_reg(1) * 10 ,17)
+--				+ resize(digit_reg(2) * 100 ,17)
+--		    	+ resize(digit_reg(3) * 1000,17)
+--				+ resize(digit_reg(4) * 10000,17);
+				
+	freq_out <= digit_reg(0)
+								+  resize((digit_reg(1) 
+											  + resize((digit_reg(2) 
+															+ resize((digit_reg(3) 
+																		 + resize(digit_reg(4) * 10,7)
+																		) * 10,10)
+															)* 10 ,14)
+											 )* 10 ,17);
+	
 	
 	lcd_data <= lcd_data_reg;
 	lcd_newchar <= lcd_newchar_reg;
@@ -115,7 +128,7 @@ begin
 		end if;
 		
 		if(lcd_busy = '0' and charcnt_reg < 10) then
-				lcd_data_next <= to_unsigned(65,8);
+				lcd_data_next <= to_unsigned(character'pos(line1(to_integer(charcnt_reg))),8);
 				lcd_newchar_next <= '1';
 				charcnt_next <= charcnt_reg + 1;
 		end if;
