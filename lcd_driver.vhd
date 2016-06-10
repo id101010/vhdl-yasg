@@ -69,7 +69,6 @@ architecture Behavioral of lcd_driver is
         SEND_SD,     -- send the display ON/OFF control
         SEND_CD,     -- send a clear
         SEND_ES,     -- send entry mode set
-        SEND_ADRESS, -- send a new adress
         WAITING1,    -- wait and toggle lcd_en
         WAITING2,    -- wait and toggle lcd_en
         WAITING3,    -- wait and toggle lcd_en
@@ -178,7 +177,7 @@ begin
                 
             when SEND_SD => -- display ON/OFF setting
             
-                next_lcd_db <= "00001111";
+                next_lcd_db <= "00001110";
                 next_lcd_en <= '1';
                 next_lcd_rs <= '0';
                 
@@ -208,18 +207,7 @@ begin
                 next_ret_state <= DONE;
                 next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
                 next_state <= WAITING1;
-            
-            when SEND_ADRESS => -- entry set mode
-                
-                next_lcd_db <= '1' & data(6 downto 0);
-                next_lcd_en <= '1';
-                next_lcd_rs <= '0';
-                
-                next_counter <= (others => '0');
-                next_ret_state <= DONE;
-                next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                next_state <= WAITING1;    
-                
+                         
             when DONE => -- initialization done
             
                 next_lcd_db <= "00000000";
@@ -227,19 +215,18 @@ begin
                 next_lcd_rs <= '0';
                 
                 if(new_character = '1') then -- send data
+						  next_ret_state <= DONE;
+						  next_state <= WAITING1;
                     next_lcd_rs <= '1';
                     next_counter <= (others => '0');
-                    next_ret_state <= DONE;
-                    next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                    next_state <= WAITING1;
+                    next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS); 
                     next_lcd_db <= data; 
                 elsif(new_pos = '1') then -- new address
-                    next_lcd_rs <= '0';
+						  next_state <= WAITING1;
+						  next_ret_state <= DONE;
+                    next_lcd_db <= '1' & data(6 downto 0);
                     next_counter <= (others => '0');
-                    next_ret_state <= SEND_ADRESS;
                     next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
-                    next_state <= WAITING1;
-                    next_lcd_db <= "000001" & data(7) & '0';
                 end if;
 
             when WAITING1 => -- wait with jump

@@ -191,7 +191,7 @@ begin
 						lcd_newchar_next <= '1';
 					else
 						charcnt_next <= (others => '0');
-						lcd_data_next <= x"C0";
+						lcd_data_next <= x"40"; --Start adress for line 2
 						lcd_newpos_next <= '1';
 						ret_state_next <= S_FREQ_PREF;
 					end if;
@@ -213,14 +213,14 @@ begin
 					ret_state_next <= S_FORM_CONT;
 					charcnt_next <= charcnt_reg + 1;
 					if(charcnt_reg < 1 ) then
-						lcd_data_next <= x"86";
+						lcd_data_next <= x"06"; --adress character 7 on line 1
 						lcd_newpos_next <= '1';
 					elsif(charcnt_reg < 9) then
 						lcd_data_next <= to_unsigned(character'pos(str_form(to_integer(form),to_integer(resize(charcnt_reg-1,3)))),8);
 						lcd_newchar_next <= '1';
 					else
 						charcnt_next <= (others => '0');
-						lcd_data_next <= x"4A" - digpos_reg;
+						lcd_data_next <= x"4A" - digpos_reg; -- adress character 11 on line 2 - digit position
 						lcd_newpos_next <= '1';
 						ret_state_next <=  S_IDLE;
 					end if;
@@ -229,13 +229,18 @@ begin
 					if(charcnt_reg < 1 ) then
 						charcnt_next <= charcnt_reg + 1;
 						ret_state_next <= S_FREQ_CONT;
-						lcd_data_next <= x"4A" - digpos_reg;
+						lcd_data_next <= x"4A" - digpos_reg; -- adress character 11 on line 2 - digit position
 						lcd_newpos_next <= '1';
-					else 
-						ret_state_next <= S_IDLE;
-						charcnt_next <= (others => '0');
+					elsif(charcnt_reg = 1) then 
+						charcnt_next <= charcnt_reg + 1;
+						ret_state_next <= S_FREQ_CONT;
 						lcd_data_next <= to_unsigned(character'pos('0'),8) + digit_reg(to_integer(digpos_reg));
 						lcd_newchar_next <= '1';
+					else
+						ret_state_next <= S_IDLE;
+						charcnt_next <= (others => '0');
+						lcd_data_next <= x"4A" - digpos_reg; -- adress character 11 on line 2 - digit position
+						lcd_newpos_next <= '1';
 					end if;
 				when S_IDLE =>
 					btn_old_next <= enc_btn;
