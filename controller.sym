@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <symbol version="7" name="controller">
     <symboltype>BLOCK</symboltype>
-    <timestamp>2016-6-6T19:48:13</timestamp>
-    <pin polarity="Input" x="0" y="-416" name="clk" />
-    <pin polarity="Input" x="0" y="-352" name="rst" />
-    <pin polarity="Input" x="0" y="-96" name="enc_err" />
-    <pin polarity="Input" x="0" y="-32" name="lcd_busy" />
-    <pin polarity="Output" x="432" y="-416" name="lcd_newchar" />
-    <pin polarity="Input" x="0" y="-288" name="enc_btn" />
-    <pin polarity="Output" x="432" y="-352" name="lcd_newpos" />
-    <pin polarity="Output" x="432" y="-288" name="lcd_data(7:0)" />
-    <pin polarity="Output" x="432" y="-224" name="freq_out(16:0)" />
-    <pin polarity="Input" x="0" y="-160" name="enc_ce" />
-    <pin polarity="Input" x="0" y="-224" name="enc_updown" />
+    <timestamp>2016-6-10T7:49:11</timestamp>
+    <pin polarity="Input" x="0" y="-480" name="clk" />
+    <pin polarity="Input" x="0" y="-416" name="rst" />
+    <pin polarity="Input" x="0" y="-160" name="enc_err" />
+    <pin polarity="Input" x="0" y="-96" name="lcd_busy" />
+    <pin polarity="Input" x="0" y="-32" name="form(1:0)" />
+    <pin polarity="Input" x="0" y="-352" name="enc_btn" />
+    <pin polarity="Input" x="0" y="-224" name="enc_ce" />
+    <pin polarity="Input" x="0" y="-288" name="enc_updown" />
+    <pin polarity="Output" x="544" y="-480" name="lcd_newchar" />
+    <pin polarity="Output" x="544" y="-416" name="lcd_newpos" />
+    <pin polarity="Output" x="544" y="-352" name="lcd_data(7:0)" />
+    <pin polarity="Output" x="544" y="-288" name="freq_out(16:0)" />
     <graph>
-        <rect width="304" x="64" y="-448" height="448" />
-        <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="216" y="-456" type="symbol" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-416" type="pin clk" />
+        <rect width="416" x="64" y="-512" height="512" />
+        <attrtext style="alignment:BCENTER;fontsize:56;fontname:Arial" attrname="SymbolName" x="216" y="-520" type="symbol" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-480" type="pin clk" />
+        <line x2="0" y1="-480" y2="-480" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-416" type="pin rst" />
         <line x2="0" y1="-416" y2="-416" x1="64" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-352" type="pin rst" />
-        <line x2="0" y1="-352" y2="-352" x1="64" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-96" type="pin enc_err" />
-        <line x2="0" y1="-96" y2="-96" x1="64" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-32" type="pin lcd_busy" />
-        <line x2="0" y1="-32" y2="-32" x1="64" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="360" y="-416" type="pin lcd_newchar" />
-        <line x2="432" y1="-416" y2="-416" x1="368" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-288" type="pin enc_btn" />
-        <line x2="0" y1="-288" y2="-288" x1="64" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="360" y="-352" type="pin lcd_newpos" />
-        <line x2="432" y1="-352" y2="-352" x1="368" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="360" y="-288" type="pin lcd_data(7:0)" />
-        <rect width="64" x="368" y="-300" height="24" />
-        <line x2="432" y1="-288" y2="-288" x1="368" />
-        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="360" y="-224" type="pin freq_out(16:0)" />
-        <rect width="64" x="368" y="-236" height="24" />
-        <line x2="432" y1="-224" y2="-224" x1="368" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-160" type="pin enc_ce" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-160" type="pin enc_err" />
         <line x2="0" y1="-160" y2="-160" x1="64" />
-        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-224" type="pin enc_updown" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-96" type="pin lcd_busy" />
+        <line x2="0" y1="-96" y2="-96" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-32" type="pin form(1:0)" />
+        <rect width="64" x="0" y="-44" height="24" />
+        <line x2="0" y1="-32" y2="-32" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-352" type="pin enc_btn" />
+        <line x2="0" y1="-352" y2="-352" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-224" type="pin enc_ce" />
         <line x2="0" y1="-224" y2="-224" x1="64" />
+        <attrtext style="fontsize:24;fontname:Arial" attrname="PinName" x="72" y="-288" type="pin enc_updown" />
+        <line x2="0" y1="-288" y2="-288" x1="64" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-480" type="pin lcd_newchar" />
+        <line x2="544" y1="-480" y2="-480" x1="480" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-416" type="pin lcd_newpos" />
+        <line x2="544" y1="-416" y2="-416" x1="480" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-352" type="pin lcd_data(7:0)" />
+        <rect width="64" x="480" y="-364" height="24" />
+        <line x2="544" y1="-352" y2="-352" x1="480" />
+        <attrtext style="alignment:RIGHT;fontsize:24;fontname:Arial" attrname="PinName" x="472" y="-288" type="pin freq_out(16:0)" />
+        <rect width="64" x="480" y="-300" height="24" />
+        <line x2="544" y1="-288" y2="-288" x1="480" />
     </graph>
 </symbol>

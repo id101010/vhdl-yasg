@@ -36,6 +36,7 @@ entity controller is
            enc_ce : in  STD_LOGIC;
 			  enc_btn: in STD_LOGIC;
            enc_err : in  STD_LOGIC;
+			  form : in unsigned(1 downto 0);
 			  lcd_busy: in STD_LOGIC;
 			  lcd_data: out unsigned(7 downto 0);
 			  lcd_newchar: out STD_LOGIC;
@@ -54,39 +55,42 @@ architecture Behavioral of controller is
 	signal state_reg, state_next : states := S_WAIT;
 	signal ret_state_reg, ret_state_next: states := S_FORM_PREF; 
 
-
-
+   ----- Edge detection registers -----
+	signal btn_old_reg, btn_old_next : std_logic := '0';
+	signal enc_old_reg, enc_old_next: std_logic :='0';
+	signal busy_old_reg, busy_old_next : std_logic := '0';
+	signal form_old_reg, form_old_next : unsigned (1 downto 0) := (others => '0');
+	
 	--digitnr which is currently edited 0-4
 	signal digpos_reg, digpos_next : unsigned(2 downto 0)  := (others => '0');
-	-- for edge detection on btn
-	signal btn_old_reg, btn_old_next : std_logic := '0';
+	signal charcnt_reg, charcnt_next : unsigned(3 downto 0) := (others => '0');
 	
 	-- array 5x 4bit(0-9)
 	type storage_digit is array (0 to 7) of unsigned (3 downto 0);
 	signal digit_reg, digit_next : storage_digit := (others => (others => '0'));
 
-	signal charcnt_reg, charcnt_next : unsigned(3 downto 0) := (others => '0');
 	signal lcd_newchar_reg,lcd_newchar_next : std_logic := '0';
 	signal lcd_newpos_reg,lcd_newpos_next : std_logic := '0';
 	signal lcd_data_reg, lcd_data_next: unsigned(7 downto 0) :=(others => '0');
 	
-	
-	type character_array1 is array (0 to 7) of character;
-	constant str_form_pref : character_array1 := ( 'F', 'o', 'r','m',':', others => ' ' );
-	
-	type character_array2 is array (0 to 15) of character;
-	constant str_freq_pref : character_array2 := ( 'F', 'r', 'e','q',':',' ','0','0','0','0','0',' ','H','z', others => ' ' );
-	
-	
-	
-	--type character_array is array (0 to 15) of character;
-	--constant line1 : character_array := ( 'h', 'e', 'l','l','o',' ', 'A', 'a', 'r', 'o', 'n', others=> ' ' );
-	
-	-- for edge detection on lcd_busy
-	signal busy_old_reg, busy_old_next : std_logic := '0';
-	
 	signal freq_out_reg, freq_out_next : unsigned (16 downto 0) := (others => '0');
-
+	
+	----------------Constants---------------------------------
+	
+	type character_array_short is array (0 to 7) of character;
+	constant str_form_pref : character_array_short := ( 'F', 'o', 'r','m',':', others => ' ' );
+	
+	type character_array_long is array (0 to 15) of character;
+	constant str_freq_pref : character_array_long := ( 'F', 'r', 'e','q',':',' ','0','0','0','0','0',' ','H','z', others => ' ' );
+	
+	type character_form_array is array (0 to 3, 0 to 7) of character;
+	constant str_form : character_form_array := (
+		 ('S','q','u','a','r','e',' ',' '),
+		 ('S','a','w','t','o','o','t','h'),
+		 ('T','r','i','a','n','g','l','e'),
+		 ('S','i','n','e',' ',' ',' ',' ')
+		);
+		
 
 begin
 
@@ -95,13 +99,17 @@ begin
 		if(rst='1') then
 			digpos_reg <= (others => '0');
 			digit_reg <=  (others => (others => '0'));
+			
 			btn_old_reg <= '0';
+			enc_old_reg <='0';
+			busy_old_reg <= '0';
+			form_old_reg <= "00";
 			
 			charcnt_reg <= (others => '0');
 			lcd_newchar_reg <= '0';
 			lcd_newpos_reg <= '0';
 			lcd_data_reg <= (others => '0');
-			busy_old_reg <= '0';
+
 			freq_out_reg <=(others => '0');
 			
 			state_reg <= S_WAIT;
@@ -110,13 +118,17 @@ begin
 		elsif(rising_edge(clk)) then
 			digpos_reg <= digpos_next;
 			digit_reg <= digit_next;
+			
 			btn_old_reg <= btn_old_next;
+			enc_old_reg <= enc_old_next;
+			busy_old_reg <= busy_old_next;
+			form_old_reg <= form_old_next;
 			
 			charcnt_reg <= charcnt_next;
 			lcd_newchar_reg<= lcd_newchar_next;
 			lcd_newpos_reg<= lcd_newpos_next;
 			lcd_data_reg <= lcd_data_next;
-			busy_old_reg <= busy_old_next;
+
 			freq_out_reg <= freq_out_next;
 			
 			state_reg <= state_next;
@@ -132,17 +144,23 @@ begin
 	lcd_newchar <= lcd_newchar_reg;
 	lcd_newpos <= lcd_newpos_reg;
 	
-	NSL: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, busy_old_reg, state_reg, ret_state_reg) 
+	NSL: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, busy_old_reg, state_reg, ret_state_reg, enc_ce,enc_old_reg, form_old_reg, form) 
 	begin
 		digit_next <= digit_reg;
 		digpos_next <= digpos_reg;
-		btn_old_next <= enc_btn;
+		
+		
+		busy_old_next <= lcd_busy;
+		btn_old_next <= btn_old_reg;
+		enc_old_next <= enc_old_reg;
+		form_old_next <= form_old_reg;
+
 		
 		charcnt_next <= charcnt_reg;
 		lcd_newchar_next <= '0';
 		lcd_newpos_next <= '0';
 		lcd_data_next <= lcd_data_reg;
-		busy_old_next <= lcd_busy;
+
 		
 		state_next <= state_reg;
 		ret_state_next <= ret_state_reg;
@@ -165,11 +183,11 @@ begin
 					end if;
 					
 				when S_FORM_PREF =>
-						state_next <= S_WAIT;
+					state_next <= S_WAIT;
 					if(charcnt_reg < 7 ) then
 						charcnt_next <= charcnt_reg + 1;
 						ret_state_next <= S_FORM_PREF;
-						lcd_data_next <= to_unsigned(character'pos(str_form_pref(to_integer(charcnt_reg))),8);
+						lcd_data_next <= to_unsigned(character'pos(str_form_pref(to_integer(resize(charcnt_reg,3)))),8);
 						lcd_newchar_next <= '1';
 					else
 						charcnt_next <= (others => '0');
@@ -186,13 +204,26 @@ begin
 						lcd_newchar_next <= '1';
 					else
 						charcnt_next <= (others => '0');
-						state_next <= S_IDLE;
+						state_next <= S_FORM_CONT;
 					end if;
 				
 				
 				when S_FORM_CONT => 
-			
-				state_next <= S_WAIT;
+					state_next <= S_WAIT;
+					ret_state_next <= S_FORM_CONT;
+					charcnt_next <= charcnt_reg + 1;
+					if(charcnt_reg < 1 ) then
+						lcd_data_next <= x"86";
+						lcd_newpos_next <= '1';
+					elsif(charcnt_reg < 9) then
+						lcd_data_next <= to_unsigned(character'pos(str_form(to_integer(form),to_integer(resize(charcnt_reg-1,3)))),8);
+						lcd_newchar_next <= '1';
+					else
+						charcnt_next <= (others => '0');
+						lcd_data_next <= x"4A" - digpos_reg;
+						lcd_newpos_next <= '1';
+						ret_state_next <=  S_IDLE;
+					end if;
 				when S_FREQ_CONT =>
 					state_next <= S_WAIT;
 					if(charcnt_reg < 1 ) then
@@ -207,12 +238,25 @@ begin
 						lcd_newchar_next <= '1';
 					end if;
 				when S_IDLE =>
-				
-					if(enc_ce='1' and enc_err='0') then
+					btn_old_next <= enc_btn;
+					enc_old_next <= enc_ce;
+					form_old_next <= form;
+
+					if(form /= form_old_reg) then
+						state_next <= S_FORM_CONT;
+					elsif(enc_ce='1' and enc_old_reg ='0' and enc_err='0') then
 						if(enc_updown='1') then
-							digit_next(to_integer(digpos_reg)) <= digit_reg(to_integer(digpos_reg)) + 1;
+							if(digit_reg(to_integer(digpos_reg)) = to_unsigned(9,4)) then
+								digit_next(to_integer(digpos_reg)) <= to_unsigned(0,4);
+							else
+								digit_next(to_integer(digpos_reg)) <= digit_reg(to_integer(digpos_reg)) + 1;
+							end if;
 						else
-							digit_next(to_integer(digpos_reg)) <= digit_reg(to_integer(digpos_reg)) -1;
+							if(digit_reg(to_integer(digpos_reg)) = to_unsigned(0,4)) then
+								digit_next(to_integer(digpos_reg)) <= to_unsigned(9,4);
+							else
+								digit_next(to_integer(digpos_reg)) <= digit_reg(to_integer(digpos_reg)) -1;
+							end if;
 						end if;
 						state_next <= S_FREQ_CONT;
 					elsif(enc_btn ='1' and btn_old_reg='0') then
@@ -227,14 +271,7 @@ begin
                      
             when others => null; -- do nothing, if we are in a different state
         end case;		
-		
-		
-		
---		if(lcd_busy = '0' and busy_old_reg ='1' and charcnt_reg < 15) then
---				lcd_data_next <= to_unsigned(character'pos(line1(to_integer(charcnt_reg))),8);
---				lcd_newchar_next <= '1';
---				charcnt_next <= charcnt_reg + 1;
---		end if;
+	
 	
 	end process NSL;
 	
