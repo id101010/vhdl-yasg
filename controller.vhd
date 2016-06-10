@@ -32,10 +32,9 @@ use IEEE.NUMERIC_STD.ALL;
 entity controller is
     Port ( clk : in  STD_LOGIC;
 			  rst: in STD_LOGIC;
-           enc_updown : in  STD_LOGIC;
+           enc_right : in  STD_LOGIC;
            enc_ce : in  STD_LOGIC;
 			  enc_btn: in STD_LOGIC;
-           enc_err : in  STD_LOGIC;
 			  form : in unsigned(1 downto 0);
 			  lcd_busy: in STD_LOGIC;
 			  lcd_data: out unsigned(7 downto 0);
@@ -144,7 +143,7 @@ begin
 	lcd_newchar <= lcd_newchar_reg;
 	lcd_newpos <= lcd_newpos_reg;
 	
-	NSL: process(digit_reg,enc_updown,enc_ce,enc_err,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, busy_old_reg, state_reg, ret_state_reg, enc_ce,enc_old_reg, form_old_reg, form) 
+	NSL: process(digit_reg,enc_right,enc_ce,enc_btn,digpos_reg,btn_old_reg, charcnt_reg, lcd_busy, lcd_data_reg, busy_old_reg, state_reg, ret_state_reg, enc_ce,enc_old_reg, form_old_reg, form) 
 	begin
 		digit_next <= digit_reg;
 		digpos_next <= digpos_reg;
@@ -249,8 +248,8 @@ begin
 
 					if(form /= form_old_reg) then
 						state_next <= S_FORM_CONT;
-					elsif(enc_ce='1' and enc_old_reg ='0' and enc_err='0') then
-						if(enc_updown='1') then
+					elsif(enc_ce='1' and enc_old_reg ='0') then
+						if(enc_right='1') then
 							if(digit_reg(to_integer(digpos_reg)) = to_unsigned(9,4)) then
 								digit_next(to_integer(digpos_reg)) <= to_unsigned(0,4);
 							else
