@@ -8,10 +8,10 @@
 !*.ucf
 !*.vhd
 !*.sch
-!*.gise
 !*.xise
 !*.jhd
 !*.wcfg
+!*.filter
 !*/
 !documentation/*
 !screenshots/*
