@@ -46,11 +46,8 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
          data : IN  std_logic_vector(7 downto 0);
          new_character : IN  std_logic;
          new_pos : IN  std_logic;
-         auto_incr_cursor : IN  std_logic;
          lcd_db : OUT  std_logic_vector(7 downto 0);
-         lcd_en : OUT  std_logic;
-         lcd_rw : OUT  std_logic;
-         lcd_rs : OUT  std_logic
+         lcd_en : OUT  std_logic
         );
     END COMPONENT;
     
@@ -81,11 +78,8 @@ BEGIN
           data => data,
           new_character => new_character,
           new_pos => new_pos,
-          auto_incr_cursor => auto_incr_cursor,
           lcd_db => lcd_db,
-          lcd_en => lcd_en,
-          lcd_rw => lcd_rw,
-          lcd_rs => lcd_rs
+          lcd_en => lcd_en
         );
 
    -- Clock process definitions
