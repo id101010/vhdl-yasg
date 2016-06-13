@@ -17,8 +17,6 @@
         <signal name="J18_IO2" />
         <signal name="J18_IO3" />
         <signal name="J18_IO1" />
-        <signal name="ROT_A" />
-        <signal name="ROT_B" />
         <signal name="XLXN_79" />
         <signal name="LCD_busy" />
         <signal name="LCD_RS" />
@@ -37,7 +35,10 @@
         <signal name="FORM(0)" />
         <signal name="BTN_EAST" />
         <signal name="XLXN_77" />
+        <signal name="ROT_A" />
+        <signal name="ROT_B" />
         <signal name="ROT_CENTER" />
+        <signal name="XLXN_181" />
         <port polarity="Input" name="CLK_50MHZ" />
         <port polarity="Output" name="SPI_SCK" />
         <port polarity="Output" name="DAC_CS" />
@@ -46,8 +47,6 @@
         <port polarity="Output" name="J18_IO2" />
         <port polarity="Output" name="J18_IO3" />
         <port polarity="Output" name="J18_IO1" />
-        <port polarity="Input" name="ROT_A" />
-        <port polarity="Input" name="ROT_B" />
         <port polarity="Output" name="LCD_RS" />
         <port polarity="Output" name="LCD_E" />
         <port polarity="Output" name="LCD_DB(7:0)" />
@@ -57,6 +56,8 @@
         <port polarity="Input" name="SW0" />
         <port polarity="Input" name="SW1" />
         <port polarity="Input" name="BTN_EAST" />
+        <port polarity="Input" name="ROT_A" />
+        <port polarity="Input" name="ROT_B" />
         <port polarity="Input" name="ROT_CENTER" />
         <blockdef name="spi_driver">
             <timestamp>2016-5-20T8:33:2</timestamp>
@@ -122,13 +123,15 @@
             <line x2="0" y1="-288" y2="-288" x1="64" />
         </blockdef>
         <blockdef name="rotary_dec">
-            <timestamp>2016-6-10T10:5:37</timestamp>
-            <rect width="256" x="64" y="-192" height="192" />
+            <timestamp>2016-6-13T11:22:41</timestamp>
+            <rect width="256" x="64" y="-256" height="256" />
+            <line x2="0" y1="-224" y2="-224" x1="64" />
             <line x2="0" y1="-160" y2="-160" x1="64" />
             <line x2="0" y1="-96" y2="-96" x1="64" />
             <line x2="0" y1="-32" y2="-32" x1="64" />
             <line x2="384" y1="-32" y2="-32" x1="320" />
             <line x2="384" y1="-96" y2="-96" x1="320" />
+            <line x2="384" y1="-160" y2="-160" x1="320" />
         </blockdef>
         <blockdef name="lcd_driver">
             <timestamp>2016-6-6T19:34:31</timestamp>
@@ -175,13 +178,6 @@
             <blockpin signalname="CLK_50MHZ" name="I" />
             <blockpin signalname="J18_IO1" name="O" />
         </block>
-        <block symbolname="rotary_dec" name="XLXI_43">
-            <blockpin signalname="CLK_50MHZ" name="clk" />
-            <blockpin signalname="ROT_A" name="A" />
-            <blockpin signalname="ROT_B" name="B" />
-            <blockpin signalname="XLXN_79" name="ce" />
-            <blockpin signalname="XLXN_77" name="right" />
-        </block>
         <block symbolname="lcd_driver" name="XLXI_88">
             <blockpin signalname="CLK_50MHZ" name="clk" />
             <blockpin signalname="BTN_EAST" name="reset" />
@@ -215,7 +211,16 @@
             <blockpin signalname="SW0" name="I" />
             <blockpin signalname="LED0" name="O" />
         </block>
-        <block symbolname="controller" name="XLXI_90">
+        <block symbolname="rotary_dec" name="XLXI_91">
+            <blockpin signalname="CLK_50MHZ" name="clk" />
+            <blockpin signalname="ROT_A" name="A" />
+            <blockpin signalname="ROT_B" name="B" />
+            <blockpin signalname="ROT_CENTER" name="btn" />
+            <blockpin signalname="XLXN_79" name="enc_ce" />
+            <blockpin signalname="XLXN_77" name="enc_right" />
+            <blockpin signalname="XLXN_181" name="btn_deb" />
+        </block>
+        <block symbolname="controller" name="XLXI_92">
             <blockpin signalname="CLK_50MHZ" name="clk" />
             <blockpin signalname="BTN_EAST" name="rst" />
             <blockpin signalname="LCD_busy" name="lcd_busy" />
@@ -226,7 +231,7 @@
             <blockpin signalname="FREQ(16:0)" name="freq_out(16:0)" />
             <blockpin signalname="XLXN_77" name="enc_right" />
             <blockpin signalname="XLXN_79" name="enc_ce" />
-            <blockpin signalname="ROT_CENTER" name="enc_btn" />
+            <blockpin signalname="XLXN_181" name="enc_btn" />
         </block>
     </netlist>
     <sheet sheetnum="1" width="5440" height="3520">
@@ -288,20 +293,10 @@
         <branch name="J18_IO1">
             <wire x2="3888" y1="1632" y2="1632" x1="3856" />
         </branch>
-        <branch name="ROT_A">
-            <wire x2="1136" y1="1600" y2="1600" x1="1056" />
-        </branch>
-        <branch name="ROT_B">
-            <wire x2="1136" y1="1664" y2="1664" x1="1056" />
-        </branch>
-        <branch name="CLK_50MHZ">
-            <wire x2="1136" y1="1536" y2="1536" x1="1056" />
-        </branch>
         <branch name="XLXN_79">
-            <wire x2="1792" y1="1664" y2="1664" x1="1520" />
+            <wire x2="1776" y1="1664" y2="1664" x1="1520" />
+            <wire x2="1792" y1="1664" y2="1664" x1="1776" />
         </branch>
-        <instance x="1136" y="1696" name="XLXI_43" orien="R0">
-        </instance>
         <branch name="LCD_busy">
             <attrtext style="alignment:SOFT-BCENTER;fontsize:28;fontname:Arial" attrname="Name" x="1648" y="1024" type="branch" />
             <wire x2="784" y1="1024" y2="1728" x1="784" />
@@ -323,9 +318,6 @@
         <iomarker fontsize="28" x="3888" y="1632" name="J18_IO1" orien="R0" />
         <iomarker fontsize="28" x="4336" y="1808" name="J18_IO4" orien="R0" />
         <iomarker fontsize="28" x="3472" y="1632" name="CLK_50MHZ" orien="R180" />
-        <iomarker fontsize="28" x="1056" y="1600" name="ROT_A" orien="R180" />
-        <iomarker fontsize="28" x="1056" y="1664" name="ROT_B" orien="R180" />
-        <iomarker fontsize="28" x="1056" y="1536" name="CLK_50MHZ" orien="R180" />
         <instance x="2736" y="1456" name="XLXI_88" orien="R0">
         </instance>
         <iomarker fontsize="28" x="2656" y="1168" name="CLK_50MHZ" orien="R180" />
@@ -423,16 +415,37 @@
         <branch name="CLK_50MHZ">
             <wire x2="1792" y1="1408" y2="1408" x1="1776" />
         </branch>
-        <branch name="ROT_CENTER">
-            <wire x2="1792" y1="1536" y2="1536" x1="1760" />
-        </branch>
         <branch name="BTN_EAST">
             <wire x2="1792" y1="1472" y2="1472" x1="1760" />
         </branch>
-        <iomarker fontsize="28" x="1760" y="1536" name="ROT_CENTER" orien="R180" />
         <iomarker fontsize="28" x="1760" y="1472" name="BTN_EAST" orien="R180" />
         <iomarker fontsize="28" x="1776" y="1408" name="CLK_50MHZ" orien="R180" />
-        <instance x="1792" y="1824" name="XLXI_90" orien="R0">
+        <branch name="ROT_A">
+            <wire x2="1072" y1="1536" y2="1536" x1="1056" />
+            <wire x2="1136" y1="1536" y2="1536" x1="1072" />
+        </branch>
+        <branch name="ROT_B">
+            <wire x2="1072" y1="1600" y2="1600" x1="1056" />
+            <wire x2="1136" y1="1600" y2="1600" x1="1072" />
+        </branch>
+        <branch name="CLK_50MHZ">
+            <wire x2="1072" y1="1472" y2="1472" x1="1056" />
+            <wire x2="1136" y1="1472" y2="1472" x1="1072" />
+        </branch>
+        <iomarker fontsize="28" x="1056" y="1536" name="ROT_A" orien="R180" />
+        <iomarker fontsize="28" x="1056" y="1600" name="ROT_B" orien="R180" />
+        <iomarker fontsize="28" x="1056" y="1472" name="CLK_50MHZ" orien="R180" />
+        <iomarker fontsize="28" x="1104" y="1664" name="ROT_CENTER" orien="R180" />
+        <instance x="1792" y="1824" name="XLXI_92" orien="R0">
         </instance>
+        <branch name="ROT_CENTER">
+            <wire x2="1120" y1="1664" y2="1664" x1="1104" />
+            <wire x2="1136" y1="1664" y2="1664" x1="1120" />
+        </branch>
+        <instance x="1136" y="1696" name="XLXI_91" orien="R0">
+        </instance>
+        <branch name="XLXN_181">
+            <wire x2="1792" y1="1536" y2="1536" x1="1520" />
+        </branch>
     </sheet>
 </drawing>
