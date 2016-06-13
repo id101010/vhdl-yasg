@@ -83,11 +83,11 @@ begin
                 to_unsigned((2**(adc_res-1)) - 1,adc_res) - sin_wave(to_integer(idx_phase(phase_res-3 downto 0))) when idx_phase(phase_res-1 downto phase_res-2)="10" else
                 to_unsigned((2**(adc_res-1)) - 1,adc_res) - sin_wave(to_integer(((2**(phase_res-2))-1) - idx_phase(phase_res-3 downto 0)));
 					 
-					 
-    with form select amp <= amp_rect when "00",
-                            amp_saw when "01",
-                            amp_tria when "10",
-                            amp_sin when others;
+	 amp <= to_unsigned(0,adc_res)  when freq = to_unsigned(0,freq_res) else 				 
+									 amp_rect when form = "00" else
+                            amp_saw when form ="01" else
+                            amp_tria when form = "10" else
+                            amp_sin;
                             
     P1: process(clk) 
     begin
