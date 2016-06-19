@@ -25,7 +25,8 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
          new_character : IN  std_logic;
          new_pos : IN  std_logic;
          lcd_db : OUT  std_logic_vector(7 downto 0);
-         lcd_en : OUT  std_logic
+         lcd_en : OUT  std_logic;
+         lcd_rs : OUT std_logic
         );
     END COMPONENT;
     
@@ -41,7 +42,6 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
     --Outputs
    signal lcd_db : std_logic_vector(7 downto 0);
    signal lcd_en : std_logic;
-   signal lcd_rw : std_logic;
    signal lcd_rs : std_logic;
    signal busy : std_logic;
 
@@ -59,6 +59,7 @@ BEGIN
           new_pos => new_pos,
           lcd_db => lcd_db,
           lcd_en => lcd_en,
+          lcd_rs => lcd_rs,
           busy => busy
         );
 
