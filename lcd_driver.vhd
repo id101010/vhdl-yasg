@@ -1,45 +1,15 @@
 ----------------------------------------------------------------------------------
--- This program is free software: you can redistribute it and/or modify
--- it under the terms of the GNU General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
---
--- This program is distributed in the hope that it will be useful,
--- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- GNU General Public License for more details.
---
--- You should have received a copy of the GNU General Public License
--- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-- Project:        YASG (Yet another signal generator)
+-- Project Page:   https://github.com/id101010/vhdl-yasg/
+-- Authors:        Aaron Schmocker & Timo Lang
+-- License:        GPL v3
+-- Create Date:    19:29:54 05/09/2016 
 ----------------------------------------------------------------------------------
--- Company:         Berner Fachhochschule
--- Engineer:        Aaron Schmocker
--- 
--- Create Date:     19:29:54 05/09/2016 
--- Design Name: 
--- Module Name:     lcddriver - Behavioral 
--- Project Name:    yasg
--- Target Devices:  Spartan-3am Board
--- Tool versions: 
--- Description:     This file is part of the yasg project
---
--- Dependencies: 
---
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity lcd_driver is
     generic (   NBITS           : natural := 21;        -- counter bit size
@@ -48,15 +18,15 @@ entity lcd_driver is
                 wait_between    : natural := 37;        -- wait 37us
                 wait_pause      : natural := 1520);     -- wait 1.52ms
                 
-    Port (  clk : in STD_LOGIC;                         -- Systemclock (50MHz)
-            reset : in STD_LOGIC;                       -- Initialize display controller
-            data : in  STD_LOGIC_VECTOR (7 downto 0);   -- either one ascii char (8bit) or new cursor position (0-31)
+    Port (  clk : in STD_LOGIC;                         -- Clock Input
+            reset : in STD_LOGIC;                       -- High active, async reset
+            data : in  STD_LOGIC_VECTOR (7 downto 0);   -- either one ascii char (8bit) or new cursor position/adress
             new_character : in  STD_LOGIC;              -- a new character is available on the data bus
             new_pos : in  STD_LOGIC;                    -- a new cursor position is available on the data bus
-            busy : out STD_LOGIC;                       -- 1 when sending stuff
-            lcd_db : out STD_LOGIC_VECTOR (7 downto 0); -- lcd databus
-            lcd_en : out STD_LOGIC;                     -- lcd enable
-            lcd_rs : out STD_LOGIC);                    -- lcd register select
+            busy : out STD_LOGIC;                       -- output which signals that the driver/lcd is currently busy
+            lcd_db : out STD_LOGIC_VECTOR (7 downto 0); -- lcd output: databus
+            lcd_en : out STD_LOGIC;                     -- lcd output: enable
+            lcd_rs : out STD_LOGIC);                    -- lcd output: register select
 end lcd_driver;
 
 architecture Behavioral of lcd_driver is
@@ -215,15 +185,15 @@ begin
                 next_lcd_rs <= '0';
                 
                 if(new_character = '1') then -- send data
-						  next_ret_state <= DONE;
-						  next_state <= WAITING1;
+                    next_ret_state <= DONE;
+                    next_state <= WAITING1;
                     next_lcd_rs <= '1';
                     next_counter <= (others => '0');
                     next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS); 
                     next_lcd_db <= data; 
                 elsif(new_pos = '1') then -- new address
-						  next_state <= WAITING1;
-						  next_ret_state <= DONE;
+                    next_state <= WAITING1;
+                    next_ret_state <= DONE;
                     next_lcd_db <= '1' & data(6 downto 0);
                     next_counter <= (others => '0');
                     next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);

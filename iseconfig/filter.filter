@@ -6,8 +6,8 @@
 <filters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='filter.xsd'>
 <filter task="xst" file="Xst" num="1293" type="warning"><arg index="1">ret_state_8</arg><arg index="2">0</arg><arg index="3">lcd_driver</arg></filter>
 <filter task="xst" file="Xst" num="1896" type="warning"><arg index="1">ret_state_6</arg><arg index="2">0</arg><arg index="3">lcd_driver</arg></filter>
-<filter task="xst" file="Xst" num="643" type="warning"><arg index="1" match_type="wildcard">/home/timo/workspace/vhdl-yasg/controller.vhd</arg><arg index="2" match_type="wildcard">169</arg><arg index="3" match_type="wildcard">*</arg><arg index="4" match_type="wildcard">*</arg><arg index="5" match_type="wildcard">17</arg></filter>
+<filter task="xst" file="Xst" num="643" type="warning"><arg index="1">/home/timo/workspace/vhdl-yasg/controller.vhd</arg><arg index="2" match_type="wildcard">*</arg><arg index="3" match_type="wildcard">*</arg><arg index="4" match_type="wildcard">*</arg><arg index="5">17</arg></filter>
 <filter task="xst" file="Xst" num="1896" type="warning"><arg index="1">ret_state_7</arg><arg index="2">0</arg><arg index="3">lcd_driver</arg></filter>
-<filter task="xst" file="Xst" num="1293" type="warning"><arg index="1">ret_state_reg_0</arg><arg index="2">0</arg><arg index="3">controller</arg></filter>
+<filter task="xst" file="Xst" num="1293" type="warning"><arg index="1">ret_state_reg_0</arg><arg index="2" match_type="wildcard">*</arg><arg index="3">controller</arg></filter>
 <filter task="xst" file="Xst" num="1293" type="warning"><arg index="1">lcd_data_reg_7</arg><arg index="2">0</arg><arg index="3">controller</arg></filter>
 </filters>
