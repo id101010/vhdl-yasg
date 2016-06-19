@@ -19,6 +19,7 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
     COMPONENT lcd_driver
     PORT(
          clk : IN  std_logic;
+         busy : out STD_LOGIC; 
          reset : IN  std_logic;
          data : IN  std_logic_vector(7 downto 0);
          new_character : IN  std_logic;
@@ -42,6 +43,7 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
    signal lcd_en : std_logic;
    signal lcd_rw : std_logic;
    signal lcd_rs : std_logic;
+   signal busy : std_logic;
 
    -- Clock period definitions
    constant clk_period : time := 20 ns;
@@ -56,7 +58,8 @@ BEGIN
           new_character => new_character,
           new_pos => new_pos,
           lcd_db => lcd_db,
-          lcd_en => lcd_en
+          lcd_en => lcd_en,
+          busy => busy
         );
 
    -- Clock process definitions
@@ -76,14 +79,28 @@ BEGIN
       reset <= '1';
       wait for 100 ns;  -- hold reset state for 100 ns.
       reset <= '0';
-      
-      -- Apply Data 
-      --data = ''
 
-      wait for clk_period*10;
+      wait for 50ms;
       
-      -- insert stimulus here 
 
+      -- test sending character
+      data <= "11111111";
+      new_character <= '1';
+      new_pos <= '0';
+
+      wait until busy = '0';
+      
+      -- test sending character
+      data <= "10101010";
+      new_character <= '0';
+      new_pos <= '1';
+      
+      wait until busy = '0';
+      
+      data <= "00000000";
+      new_character <= '0';
+      new_pos <= '0';
+      
       wait;
    end process;
 
