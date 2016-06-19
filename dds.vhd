@@ -15,7 +15,7 @@ use work.helpers.all;
 entity dds is
     Generic (clk_freq: natural:= 50000000; -- Clock frequency in hz
              freq_res: natural:=17;        -- width of frequency input (log2(max_freq))
-             adc_res: natural:=12;         -- width of the ouput signal (=adc resolution)
+             adc_res: natural:=12;         -- width of the output signal (=adc resolution)
              acc_res: natural:=32;         -- width of the phase accumulator
              phase_res: natural:=10);      -- effective phase resolution for sin lookup table
     Port ( clk : in  STD_LOGIC;                        -- Clock input

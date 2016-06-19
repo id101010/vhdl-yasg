@@ -16,7 +16,7 @@
 
   <files>
     <file xil_pn:name="lcd_driver.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="1"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="4"/>
     </file>
     <file xil_pn:name="dds.vhd" xil_pn:type="FILE_VHDL">
@@ -51,7 +51,7 @@
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="rotary.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="1"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="3"/>
     </file>
     <file xil_pn:name="controller.vhd" xil_pn:type="FILE_VHDL">
@@ -59,7 +59,7 @@
       <association xil_pn:name="Implementation" xil_pn:seqID="6"/>
     </file>
     <file xil_pn:name="lcd_driver_tb.vhd" xil_pn:type="FILE_VHDL">
-      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="132"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="132"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="132"/>
@@ -69,6 +69,12 @@
       <association xil_pn:name="PostMapSimulation" xil_pn:seqID="143"/>
       <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="143"/>
       <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="143"/>
+    </file>
+    <file xil_pn:name="rotary_tb.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
+      <association xil_pn:name="PostMapSimulation" xil_pn:seqID="68"/>
+      <association xil_pn:name="PostRouteSimulation" xil_pn:seqID="68"/>
+      <association xil_pn:name="PostTranslateSimulation" xil_pn:seqID="68"/>
     </file>
   </files>
 
@@ -84,8 +90,8 @@
     <property xil_pn:name="Package" xil_pn:value="fgg484" xil_pn:valueState="default"/>
     <property xil_pn:name="Preferred Language" xil_pn:value="VHDL" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Property Specification in Project File" xil_pn:value="Store non-default values only" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Selected Module Instance Name" xil_pn:value="/toplevel" xil_pn:valueState="non-default"/>
-    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="work.toplevel" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Selected Module Instance Name" xil_pn:value="/rotary_tb" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="Selected Simulation Root Source Node Behavioral" xil_pn:value="work.rotary_tb" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Simulator" xil_pn:value="ISim (VHDL/Verilog)" xil_pn:valueState="default"/>
     <property xil_pn:name="Speed Grade" xil_pn:value="-4" xil_pn:valueState="non-default"/>
     <property xil_pn:name="Synthesis Tool" xil_pn:value="XST (VHDL/Verilog)" xil_pn:valueState="default"/>
@@ -95,7 +101,7 @@
     <!--                                                                                  -->
     <!-- The following properties are for internal use only. These should not be modified.-->
     <!--                                                                                  -->
-    <property xil_pn:name="PROP_BehavioralSimTop" xil_pn:value="Architecture|lcd_driver_tb|behavior" xil_pn:valueState="non-default"/>
+    <property xil_pn:name="PROP_BehavioralSimTop" xil_pn:value="Architecture|rotary_tb|behavior" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_DesignName" xil_pn:value="yasg" xil_pn:valueState="non-default"/>
     <property xil_pn:name="PROP_DevFamilyPMName" xil_pn:value="spartan3a" xil_pn:valueState="default"/>
     <property xil_pn:name="PROP_intProjectCreationTimestamp" xil_pn:value="2016-05-09T19:06:02" xil_pn:valueState="non-default"/>

@@ -11,6 +11,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
  
 entity rotary_dec is
+    Generic (clk_freq: natural:= 50000000;  -- Clock frequency in hz
+             debounce_time: natural := 10);  -- Debounce time in ms
     Port ( clk      : in std_logic;         -- Clock Input
            A        : in std_logic;         -- Signal A
            B        : in std_logic;         -- Signal B
@@ -30,7 +32,7 @@ signal btn_reg, btn_next: std_logic :='0';  -- Registers for debouncing Button P
 signal counter_a_reg, counter_a_next,       -- Counters to smooth chittering = debounce signals
        counter_b_reg, counter_b_next,
        counter_btn_reg, counter_btn_next: unsigned(23 downto 0) := (others => '0');
-constant count_max: unsigned(23 downto 0) := to_unsigned(500000,24); --Number of cycles during which a signal can't change it's value 50mhz*10ms= 500000 cycles
+constant count_max: unsigned(23 downto 0) := to_unsigned(clk_freq / (1000 / debounce_time),24); --Number of cycles during which a signal can't change it's value 50mhz*10ms= 500000 cycles   
  
 begin
  

@@ -11,6 +11,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity controller is
+    Generic (freq_res: natural:=17);                 -- width of frequency input (log2(max_freq))
     Port ( clk : in  STD_LOGIC;                      -- Clock Input
            rst: in STD_LOGIC;                        -- High active, async reset
            enc_right : in  STD_LOGIC;                -- Encoder Input: 1= Direction Right, 0 = Direction Left
@@ -21,7 +22,7 @@ entity controller is
            lcd_data: out unsigned(7 downto 0);       -- LCD Output: Data output
            lcd_newchar: out STD_LOGIC;               -- LCD Output: Send a new character to the lcd
            lcd_newpos : out STD_LOGIC;               -- LCD Output: Send a new position/adress to the lcd
-           freq_out : out  unsigned (16 downto 0));  -- Frequency Ouput (Treshould in Hz)
+           freq_out : out  unsigned (freq_res-1 downto 0));  -- Frequency Output (Treshould in Hz)
 end controller;
 
 architecture Behavioral of controller is
@@ -53,7 +54,7 @@ architecture Behavioral of controller is
    signal lcd_newpos_reg,lcd_newpos_next : std_logic := '0';                       -- Register for the LCD Newpos signal
    signal lcd_data_reg, lcd_data_next: unsigned(7 downto 0) :=(others => '0');     -- Register for the LCD Databus signal
    
-   signal freq_out_reg, freq_out_next : unsigned (16 downto 0) := (others => '0'); -- Register for the frequency ouput (in hz)
+   signal freq_out_reg, freq_out_next : unsigned (16 downto 0) := (others => '0'); -- Register for the frequency output (in hz)
    
    ----------------Constants---------------------------------
   
@@ -153,7 +154,7 @@ begin
                                + resize(digit_reg(2) ,7)* 100
                                + resize(digit_reg(3) ,10) * 1000
                                + resize(digit_reg(4) ,14) * 10000
-                              ,17);
+                              ,freq_res);
                
             
       case state_reg is -- switch on current state
