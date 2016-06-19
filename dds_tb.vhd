@@ -2,7 +2,7 @@
 -- Project:        YASG (Yet another signal generator)
 -- Project Page:   https://github.com/id101010/vhdl-yasg/
 -- Authors:        Aaron Schmocker & Timo Lang
--- License:		    GPL v3
+-- License:        GPL v3
 -- Create Date:    11:35:57 05/16/2016
 --------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ ARCHITECTURE behavior OF dds_tb IS
    signal freq : unsigned(16 downto 0) := (others => '0');
    signal form : unsigned(1 downto 0) := (others => '0');
 
- 	--Outputs
+    --Outputs
    signal amp : unsigned(11 downto 0);
 
    -- Clock period definitions
@@ -40,7 +40,7 @@ ARCHITECTURE behavior OF dds_tb IS
  
 BEGIN
  
-	-- Instantiate the Unit Under Test (UUT)
+   -- Instantiate the Unit Under Test (UUT)
    uut: dds PORT MAP (
           clk => clk,
           freq => freq,
@@ -51,18 +51,18 @@ BEGIN
    -- Clock process definitions
    clk_process :process
    begin
-		clk <= '0';
-		wait for clk_period/2;
-		clk <= '1';
-		wait for clk_period/2;
+      clk <= '0';
+      wait for clk_period/2;
+      clk <= '1';
+      wait for clk_period/2;
    end process;
  
 
    -- Stimulus process
    stim_proc: process
-   begin		
+   begin      
       -- hold reset state for 100 ns.
-      wait for 100 ns;	
+      wait for 100 ns;   
 
    
  

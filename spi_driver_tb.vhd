@@ -2,7 +2,7 @@
 -- Project:        YASG (Yet another signal generator)
 -- Project Page:   https://github.com/id101010/vhdl-yasg/
 -- Authors:        Aaron Schmocker & Timo Lang
--- License:		    GPL v3
+-- License:        GPL v3
 -- Create Date:    15:38:41 05/17/2016
 ----------------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ ARCHITECTURE behavior OF spi_driver_tb IS
    signal rst : std_logic := '0';
    signal val : unsigned(11 downto 0) := (others => '0');
 
- 	--Outputs
+    --Outputs
    signal sck : std_logic;
    signal cs : std_logic;
    signal mosi : std_logic;
@@ -44,7 +44,7 @@ ARCHITECTURE behavior OF spi_driver_tb IS
  
 BEGIN
  
-	-- Instantiate the Unit Under Test (UUT)
+   -- Instantiate the Unit Under Test (UUT)
    uut: spi_driver PORT MAP (
           clk => clk,
           rst => rst,
@@ -57,36 +57,36 @@ BEGIN
    -- Clock process definitions
    clk_process :process
    begin
-		clk <= '0';
-		wait for clk_period/2;
-		clk <= '1';
-		wait for clk_period/2;
+      clk <= '0';
+      wait for clk_period/2;
+      clk <= '1';
+      wait for clk_period/2;
    end process;
  
 
    -- Stimulus process
    stim_proc: process
-   begin		
+   begin      
       -- hold reset state for 100 ns.
-		rst <= '1';
-      wait for 100 ns;	
-		rst <= '0';
+      rst <= '1';
+      wait for 100 ns;   
+      rst <= '0';
       wait for clk_period*10;
-		
-		val <= to_unsigned(0,12);
-		wait for clk_period*64;
-		
-		val <= to_unsigned(7,12);
-		wait for clk_period*64;
-		
-		val <= to_unsigned(31,12);
-		wait for clk_period*64;
-		
-		val <= to_unsigned(128,12);
-		wait for clk_period*64;
-		
-		val <= to_unsigned(512,12);
-		wait for clk_period*64;
+      
+      val <= to_unsigned(0,12);
+      wait for clk_period*64;
+      
+      val <= to_unsigned(7,12);
+      wait for clk_period*64;
+      
+      val <= to_unsigned(31,12);
+      wait for clk_period*64;
+      
+      val <= to_unsigned(128,12);
+      wait for clk_period*64;
+      
+      val <= to_unsigned(512,12);
+      wait for clk_period*64;
 
       -- insert stimulus here 
 

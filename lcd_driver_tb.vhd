@@ -2,7 +2,7 @@
 -- Project:        YASG (Yet another signal generator)
 -- Project Page:   https://github.com/id101010/vhdl-yasg/
 -- Authors:        Aaron Schmocker & Timo Lang
--- License:		    GPL v3
+-- License:        GPL v3
 -- Create Date:    21:11:41 05/16/2016
 ----------------------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
    signal new_pos : std_logic := '0';
    signal auto_incr_cursor : std_logic := '0';
 
- 	--Outputs
+    --Outputs
    signal lcd_db : std_logic_vector(7 downto 0);
    signal lcd_en : std_logic;
    signal lcd_rw : std_logic;
@@ -48,7 +48,7 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
  
 BEGIN
  
-	-- Instantiate the Unit Under Test (UUT)
+   -- Instantiate the Unit Under Test (UUT)
    uut: lcd_driver PORT MAP (
           clk => clk,
           reset => reset,
@@ -62,16 +62,16 @@ BEGIN
    -- Clock process definitions
    clk_process :process
    begin
-		clk <= '0';
-		wait for clk_period/2;
-		clk <= '1';
-		wait for clk_period/2;
+      clk <= '0';
+      wait for clk_period/2;
+      clk <= '1';
+      wait for clk_period/2;
    end process;
  
 
    -- Stimulus process
    stim_proc: process
-   begin		
+   begin      
    
       reset <= '1';
       wait for 100 ns;  -- hold reset state for 100 ns.

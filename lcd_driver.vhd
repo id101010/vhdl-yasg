@@ -2,7 +2,7 @@
 -- Project:        YASG (Yet another signal generator)
 -- Project Page:   https://github.com/id101010/vhdl-yasg/
 -- Authors:        Aaron Schmocker & Timo Lang
--- License:		    GPL v3
+-- License:        GPL v3
 -- Create Date:    19:29:54 05/09/2016 
 ----------------------------------------------------------------------------------
 
@@ -185,15 +185,15 @@ begin
                 next_lcd_rs <= '0';
                 
                 if(new_character = '1') then -- send data
-						  next_ret_state <= DONE;
-						  next_state <= WAITING1;
+                    next_ret_state <= DONE;
+                    next_state <= WAITING1;
                     next_lcd_rs <= '1';
                     next_counter <= (others => '0');
                     next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS); 
                     next_lcd_db <= data; 
                 elsif(new_pos = '1') then -- new address
-						  next_state <= WAITING1;
-						  next_ret_state <= DONE;
+                    next_state <= WAITING1;
+                    next_ret_state <= DONE;
                     next_lcd_db <= '1' & data(6 downto 0);
                     next_counter <= (others => '0');
                     next_ret_counter <= to_unsigned(PAUSE_COUNT,NBITS);
