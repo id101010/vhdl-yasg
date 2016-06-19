@@ -22,11 +22,12 @@ entity spi_driver is
 end spi_driver;
 
 architecture Behavioral of spi_driver is
-   type states is(S_IDLE, S_WORK);
-   signal state_reg, state_next: states := S_IDLE;
-   signal counter_reg, counter_next: unsigned(5 downto 0) := (others => '0'); 
-   signal shift_reg, shift_next: unsigned(19 downto 0):= (others => '0'); 
+   type states is(S_IDLE, S_WORK); -- FSM: Idle and Work State
+   signal state_reg, state_next: states := S_IDLE; -- Current and next state register
+   signal counter_reg, counter_next: unsigned(5 downto 0) := (others => '0'); -- Counter for the bit nr
+   signal shift_reg, shift_next: unsigned(19 downto 0):= (others => '0'); -- Shift reg for the ouput
 begin
+   -- State register process (combinational)
    REGS: process (clk, rst) is
    begin -- process start
      if rst = '1' then  -- asynchronous reset (active high)
@@ -40,32 +41,35 @@ begin
      end if;
    end process REGS;
 
-   mosi <= shift_reg(shift_reg'high) when state_reg=S_WORK else '0';
-   sck <= '1' when state_reg=S_WORK and counter_reg(0)='1' else '0';
-   cs <= '1' when state_reg =S_IDLE else '0';
+   mosi <= shift_reg(shift_reg'high) when state_reg=S_WORK else '0'; -- Mosi: Highest value of shift reg when in Work state, otherwise 0
+   sck <= '1' when state_reg=S_WORK and counter_reg(0)='1' else '0'; -- Sck: High when in work state and lowest bit 1 (shift will be performed when lowest bit = 0)
+   cs <= '0' when state_reg =S_WORK else '1'; -- Cs (low active): Low when in state work
 
+   -- Next State logic process (combinational)
    NSL: process (state_reg, counter_reg, shift_reg, val) is
    begin   
       state_next <= state_reg;
       counter_next <= counter_reg;
       shift_next <= shift_reg;
+      
       case state_reg is -- switch on current state
          when S_IDLE => -- currently in idle state
             state_next <= S_WORK;
             counter_next <= to_unsigned(0,counter_reg'length);
             
-            shift_next(19 downto 16) <= "0011";  --Command: Write to and Update (Power Up) 
-            shift_next(15 downto 12) <= "0000";  --Adress: DAC0
-            shift_next(11 downto 0) <= val; -- DAC Value (12bit)
+            -- Initialize shift reg
+            shift_next(19 downto 16) <= "0011";  -- Command: Write to and Update (Power Up) 
+            shift_next(15 downto 12) <= "0000";  -- Adress: DAC0
+            shift_next(11 downto 0) <= val;      -- DAC Value (12bit)
             --shift_next(0 downto -3) <= "XXXX"; -- 4x don't care
             
          when S_WORK => -- currently in work state
-            if(counter_reg = 24*2 -1) then
-               state_next <= S_IDLE;
-            else
-               counter_next<= counter_reg + 1;
+            if(counter_reg = 24*2 -1) then -- all bits sent
+               state_next <= S_IDLE; -- return to idle state
+            else -- not all bits sent
+               counter_next<= counter_reg + 1; -- increase bit counter
             end if;
-            if(counter_reg(0)='1') then
+            if(counter_reg(0)='1') then -- peform shift when lowest bit = 1, shift will be performed when bit = 0
                shift_next <= shift_left(shift_reg,1);
             end if;
          when others => null; -- do nothing, if we are in a different state
