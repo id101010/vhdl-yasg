@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="/home/timo/workspace/vhdl-yasg/controller_tb_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="controller_tb" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="17" />
+   <wvobject fp_name="/controller_tb/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/enc_right" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">enc_right</obj_property>
+      <obj_property name="ObjectShortName">enc_right</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/enc_ce" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">enc_ce</obj_property>
+      <obj_property name="ObjectShortName">enc_ce</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/enc_btn" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">enc_btn</obj_property>
+      <obj_property name="ObjectShortName">enc_btn</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/form" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">form[1:0]</obj_property>
+      <obj_property name="ObjectShortName">form[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/lcd_busy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">lcd_busy</obj_property>
+      <obj_property name="ObjectShortName">lcd_busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/lcd_data" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">lcd_data[7:0]</obj_property>
+      <obj_property name="ObjectShortName">lcd_data[7:0]</obj_property>
+      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/lcd_newchar" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">lcd_newchar</obj_property>
+      <obj_property name="ObjectShortName">lcd_newchar</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/lcd_newpos" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">lcd_newpos</obj_property>
+      <obj_property name="ObjectShortName">lcd_newpos</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/freq_out" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">freq_out[16:0]</obj_property>
+      <obj_property name="ObjectShortName">freq_out[16:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/clk_period" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">clk_period</obj_property>
+      <obj_property name="ObjectShortName">clk_period</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/uut/state_reg" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">state_reg</obj_property>
+      <obj_property name="ObjectShortName">state_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/uut/ret_state_reg" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">ret_state_reg</obj_property>
+      <obj_property name="ObjectShortName">ret_state_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/uut/digpos_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">digpos_reg[2:0]</obj_property>
+      <obj_property name="ObjectShortName">digpos_reg[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/uut/charcnt_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">charcnt_reg[3:0]</obj_property>
+      <obj_property name="ObjectShortName">charcnt_reg[3:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/controller_tb/uut/digit_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">digit_reg[0:7]</obj_property>
+      <obj_property name="ObjectShortName">digit_reg[0:7]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+</wave_config>
