@@ -1,30 +1,14 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
+-- Project:        YASG (Yet another signal generator)
+-- Project Page:   https://github.com/id101010/vhdl-yasg/
+-- Authors:        Aaron Schmocker & Timo Lang
+-- License:		    GPL v3
 -- Create Date:    12:51:31 05/17/2016 
--- Design Name: 
--- Module Name:    spi_driver - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity spi_driver is
 	Generic (clk_freq: natural:= 50000000;

@@ -1,45 +1,15 @@
 ----------------------------------------------------------------------------------
--- This program is free software: you can redistribute it and/or modify
--- it under the terms of the GNU General Public License as published by
--- the Free Software Foundation, either version 3 of the License, or
--- (at your option) any later version.
---
--- This program is distributed in the hope that it will be useful,
--- but WITHOUT ANY WARRANTY; without even the implied warranty of
--- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--- GNU General Public License for more details.
---
--- You should have received a copy of the GNU General Public License
--- along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-- Project:        YASG (Yet another signal generator)
+-- Project Page:   https://github.com/id101010/vhdl-yasg/
+-- Authors:        Aaron Schmocker & Timo Lang
+-- License:		    GPL v3
+-- Create Date:    19:29:54 05/09/2016 
 ----------------------------------------------------------------------------------
--- Company:         Berner Fachhochschule
--- Engineer:        Aaron Schmocker
--- 
--- Create Date:     19:29:54 05/09/2016 
--- Design Name: 
--- Module Name:     lcddriver - Behavioral 
--- Project Name:    yasg
--- Target Devices:  Spartan-3am Board
--- Tool versions: 
--- Description:     This file is part of the yasg project
---
--- Dependencies: 
---
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity lcd_driver is
     generic (   NBITS           : natural := 21;        -- counter bit size

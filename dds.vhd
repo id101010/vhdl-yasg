@@ -1,22 +1,11 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
+-- Project:        YASG (Yet another signal generator)
+-- Project Page:   https://github.com/id101010/vhdl-yasg/
+-- Authors:        Aaron Schmocker & Timo Lang
+-- License:		    GPL v3
 -- Create Date:    11:09:53 05/16/2016 
--- Design Name: 
--- Module Name:    dds - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
 ----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;

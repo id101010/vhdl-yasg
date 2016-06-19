@@ -1,3 +1,11 @@
+#---------------------------------------------------------------------------------
+#- Project:        YASG (Yet another signal generator)
+#- Project Page:   https://github.com/id101010/vhdl-yasg/
+#- Authors:        Aaron Schmocker & Timo Lang
+#- License:		    GPL v3
+#- Create Date:    16:23:12 05/20/2016 
+#---------------------------------------------------------------------------------
+
 NET "CLK_50MHZ" LOC = "E12"| IOSTANDARD = LVCMOS33 ;
 NET "CLK_50MHZ" PERIOD = 20.0ns HIGH 40%;
 

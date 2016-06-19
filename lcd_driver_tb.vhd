@@ -1,36 +1,13 @@
---------------------------------------------------------------------------------
--- Company: 
--- Engineer:
---
--- Create Date:   21:11:41 05/16/2016
--- Design Name:   
--- Module Name:   /home/aaron/Dokumente/STUDIUM/SEM6/EloSys/EloSysDigital/Projekt/vhdl-yasg/lcd_driver_tb.vhd
--- Project Name:  yasg
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
--- VHDL Test Bench Created by ISE for module: lcd_driver
--- 
--- Dependencies:
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes: 
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
--- simulation model.
---------------------------------------------------------------------------------
+----------------------------------------------------------------------------------
+-- Project:        YASG (Yet another signal generator)
+-- Project Page:   https://github.com/id101010/vhdl-yasg/
+-- Authors:        Aaron Schmocker & Timo Lang
+-- License:		    GPL v3
+-- Create Date:    21:11:41 05/16/2016
+----------------------------------------------------------------------------------
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
- 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
  
 ENTITY lcd_driver_tb IS
 END lcd_driver_tb;
