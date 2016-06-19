@@ -20,6 +20,14 @@
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
+   <wvobject fp_name="/lcd_driver_tb/uut/busy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">busy</obj_property>
+      <obj_property name="ObjectShortName">busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/lcd_driver_tb/lcd_db" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">lcd_db[7:0]</obj_property>
+      <obj_property name="ObjectShortName">lcd_db[7:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/lcd_driver_tb/data" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">data[7:0]</obj_property>
       <obj_property name="ObjectShortName">data[7:0]</obj_property>
@@ -31,14 +39,6 @@
    <wvobject fp_name="/lcd_driver_tb/new_pos" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">new_pos</obj_property>
       <obj_property name="ObjectShortName">new_pos</obj_property>
-   </wvobject>
-   <wvobject fp_name="/lcd_driver_tb/auto_incr_cursor" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">auto_incr_cursor</obj_property>
-      <obj_property name="ObjectShortName">auto_incr_cursor</obj_property>
-   </wvobject>
-   <wvobject fp_name="/lcd_driver_tb/lcd_db" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">lcd_db[7:0]</obj_property>
-      <obj_property name="ObjectShortName">lcd_db[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/lcd_driver_tb/uut/lcd_en" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">lcd_en</obj_property>

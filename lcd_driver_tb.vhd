@@ -37,7 +37,6 @@ ARCHITECTURE behavior OF lcd_driver_tb IS
    signal data : std_logic_vector(7 downto 0) := (others => '0');
    signal new_character : std_logic := '0';
    signal new_pos : std_logic := '0';
-   signal auto_incr_cursor : std_logic := '0';
 
     --Outputs
    signal lcd_db : std_logic_vector(7 downto 0);
@@ -90,6 +89,7 @@ BEGIN
       new_pos <= '0';
 
       wait until busy = '0';
+      wait for 10ms;
       
       -- test sending character
       data <= "10101010";
@@ -97,7 +97,9 @@ BEGIN
       new_pos <= '1';
       
       wait until busy = '0';
+      wait for 10ms;
       
+      -- Reset
       data <= "00000000";
       new_character <= '0';
       new_pos <= '0';
