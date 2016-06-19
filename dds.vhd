@@ -13,15 +13,15 @@ use IEEE.MATH_REAL.ALL;
 use work.helpers.all;
 
 entity dds is
-    Generic (clk_freq: natural:= 50000000;
+    Generic (clk_freq: natural:= 50000000; -- Clock frequency in hz
              freq_res: natural:=17;        -- width of frequency input (log2(max_freq))
              adc_res: natural:=12;         -- width of the ouput signal (=adc resolution)
              acc_res: natural:=32;         -- width of the phase accumulator
              phase_res: natural:=10);      -- effective phase resolution for sin lookup table
-    Port ( clk : in  STD_LOGIC;
-           freq : in  unsigned (freq_res-1 downto 0);
-           form : in  unsigned (1 downto 0);
-           amp : out  unsigned (adc_res-1 downto 0));
+    Port ( clk : in  STD_LOGIC;                        -- Clock input
+           freq : in  unsigned (freq_res-1 downto 0);  -- Frequenzy input (treshould in Hz)
+           form : in  unsigned (1 downto 0);           -- Form selection (00=Rectancle, 01=Sawtooth, 10=Triangle, 11=Sine)
+           amp : out  unsigned (adc_res-1 downto 0));  -- Signal Output (Amplitude)
 end dds;
 
 architecture Behavioral of dds is   

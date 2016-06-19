@@ -11,17 +11,17 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity controller is
-    Port ( clk : in  STD_LOGIC;
-           rst: in STD_LOGIC;
-           enc_right : in  STD_LOGIC;
-           enc_ce : in  STD_LOGIC;
-           enc_btn: in STD_LOGIC;
-           form : in unsigned(1 downto 0);
-           lcd_busy: in STD_LOGIC;
-           lcd_data: out unsigned(7 downto 0);
-           lcd_newchar: out STD_LOGIC;
-           lcd_newpos : out STD_LOGIC;
-           freq_out : out  unsigned (16 downto 0));
+    Port ( clk : in  STD_LOGIC;                      -- Clock Input
+           rst: in STD_LOGIC;                        -- High active, async reset
+           enc_right : in  STD_LOGIC;                -- Encoder Input: 1= Direction Right, 0 = Direction Left
+           enc_ce : in  STD_LOGIC;                   -- Encoder Input: Clock Enable for Signal above
+           enc_btn: in STD_LOGIC;                    -- Encoder Input: Debounced Button (High active)
+           form : in unsigned(1 downto 0);           -- Form selection (mapping see dds.vhd)
+           lcd_busy: in STD_LOGIC;                   -- LCD Feedback: Busy Signal: 1= LCD is currently busy
+           lcd_data: out unsigned(7 downto 0);       -- LCD Output: Data output
+           lcd_newchar: out STD_LOGIC;               -- LCD Output: Send a new character to the lcd
+           lcd_newpos : out STD_LOGIC;               -- LCD Output: Send a new position/adress to the lcd
+           freq_out : out  unsigned (16 downto 0));  -- Frequency Ouput (Treshould in Hz)
 end controller;
 
 architecture Behavioral of controller is

@@ -11,13 +11,13 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
  
 entity rotary_dec is
-    Port ( clk      : in std_logic;         -- Systemtakt
-           A        : in std_logic;         -- Spur A
-           B        : in std_logic;         -- Spur B
+    Port ( clk      : in std_logic;         -- Clock Input
+           A        : in std_logic;         -- Signal A
+           B        : in std_logic;         -- Signal B
            btn        : in std_logic;       -- Button Input
-           btn_deb  : out std_logic;        -- Button entprellt
-           enc_right: out std_logic;        -- Zaehlrichtung
-           enc_ce   : out std_logic);       -- Clock Enable
+           btn_deb  : out std_logic;        -- Button Output Debonced
+           enc_right: out std_logic;        -- Direction Output: 1=right
+           enc_ce   : out std_logic);       -- Clock Enable Output for signal above
 
 end rotary_dec;
  

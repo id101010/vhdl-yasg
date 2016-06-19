@@ -11,14 +11,14 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity spi_driver is
-   Generic (clk_freq: natural:= 50000000;
-            adc_res: natural:=12);
-    Port ( clk : in  STD_LOGIC;
-           rst: in STD_LOGIC;
-           val : in  unsigned (adc_res-1 downto 0);
-           sck : out  STD_LOGIC;
-           cs : out  STD_LOGIC;
-           mosi : out  STD_LOGIC);
+   Generic (clk_freq: natural:= 50000000;           -- Clock-Frequency in Hz
+            adc_res: natural:=12);                  -- Number of bits the DAC has
+    Port ( clk : in  STD_LOGIC;                     -- Clock input
+           rst: in STD_LOGIC;                       -- High active, async reset
+           val : in  unsigned (adc_res-1 downto 0); -- DAC Value to write out 
+           sck : out  STD_LOGIC;                    -- SPI SCK Signal (Clock)
+           cs : out  STD_LOGIC;                     -- SPI CS Signal (Chip Select)
+           mosi : out  STD_LOGIC);                  -- SPI MOSI Signal (Master Out Slave in)
 end spi_driver;
 
 architecture Behavioral of spi_driver is

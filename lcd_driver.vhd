@@ -18,15 +18,15 @@ entity lcd_driver is
                 wait_between    : natural := 37;        -- wait 37us
                 wait_pause      : natural := 1520);     -- wait 1.52ms
                 
-    Port (  clk : in STD_LOGIC;                         -- Systemclock (50MHz)
-            reset : in STD_LOGIC;                       -- Initialize display controller
-            data : in  STD_LOGIC_VECTOR (7 downto 0);   -- either one ascii char (8bit) or new cursor position (0-31)
+    Port (  clk : in STD_LOGIC;                         -- Clock Input
+            reset : in STD_LOGIC;                       -- High active, async reset
+            data : in  STD_LOGIC_VECTOR (7 downto 0);   -- either one ascii char (8bit) or new cursor position/adress
             new_character : in  STD_LOGIC;              -- a new character is available on the data bus
             new_pos : in  STD_LOGIC;                    -- a new cursor position is available on the data bus
-            busy : out STD_LOGIC;                       -- 1 when sending stuff
-            lcd_db : out STD_LOGIC_VECTOR (7 downto 0); -- lcd databus
-            lcd_en : out STD_LOGIC;                     -- lcd enable
-            lcd_rs : out STD_LOGIC);                    -- lcd register select
+            busy : out STD_LOGIC;                       -- output which signals that the driver/lcd is currently busy
+            lcd_db : out STD_LOGIC_VECTOR (7 downto 0); -- lcd output: databus
+            lcd_en : out STD_LOGIC;                     -- lcd output: enable
+            lcd_rs : out STD_LOGIC);                    -- lcd output: register select
 end lcd_driver;
 
 architecture Behavioral of lcd_driver is
